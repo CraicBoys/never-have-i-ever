@@ -30,7 +30,7 @@ COPY --from=install /temp/prod/node_modules node_modules
 COPY --from=prerelease /app/index.ts .
 COPY --from=prerelease /app/src ./src
 COPY --from=prerelease /app/package.json .
-COPY --from=prerelease /app/books.json ./books.json
+COPY --from=prerelease /app/data ./data
 
 # Create data directory for persistent storage and set permissions
 RUN mkdir -p /app/data && chown -R bun:bun /app/data

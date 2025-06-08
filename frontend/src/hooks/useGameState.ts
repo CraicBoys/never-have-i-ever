@@ -3,9 +3,7 @@ import type { GameState, Player, Statement, GameResults } from '../types/game';
 import { GamePhase } from '../types/game';
 import toast from 'react-hot-toast';
 
-const API_BASE = process.env.NODE_ENV === 'production' 
-  ? 'https://your-domain.com/api' 
-  : 'http://localhost:3001/api';
+const API_BASE = process.env.API_BASE_URL || 'http://localhost:3001/api';
 
 interface Lobby {
   gameId: string;
