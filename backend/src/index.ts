@@ -1,6 +1,6 @@
 import { serve } from "bun";
-import { GameService } from './src/services/GameService.js';
-import { GamePhase } from './src/types/Game.js';
+import { GameService } from './services/GameService.js';
+import { GamePhase } from './types/Game.js';
 
 const gameService = new GameService();
 
@@ -65,8 +65,8 @@ const server = serve({
     // Create room
     if (url.pathname === '/api/rooms' && req.method === 'POST') {
       try {
-        const body = await req.json() as { playerName: string };
-        const { game, hostPlayer } = gameService.createGame(body.playerName);
+        const { playerName } = await req.json();
+        const { game, hostPlayer } = gameService.createGame(playerName);
         
         return new Response(JSON.stringify({
           gameId: game.id,
@@ -100,8 +100,8 @@ const server = serve({
     // Join room by game ID
     if (url.pathname === '/api/rooms/join' && req.method === 'POST') {
       try {
-        const body = await req.json() as { gameId: string; playerName: string };
-        const result = gameService.joinGameById(body.gameId, body.playerName);
+        const { gameId, playerName } = await req.json();
+        const result = gameService.joinGameById(gameId, playerName);
         
         if (!result) {
           return new Response(JSON.stringify({ error: 'Game not found' }), {
@@ -149,16 +149,6 @@ const server = serve({
     if (url.pathname.startsWith('/api/games/') && req.method === 'GET') {
       try {
         const gameId = url.pathname.split('/')[3];
-        if (!gameId) {
-          return new Response(JSON.stringify({ error: 'Game ID required' }), {
-            status: 400,
-            headers: { 
-              'Content-Type': 'application/json',
-              ...corsHeaders 
-            }
-          });
-        }
-        
         const game = gameService.getGame(gameId);
         
         if (!game) {
@@ -201,17 +191,7 @@ const server = serve({
     if (url.pathname.startsWith('/api/games/') && url.pathname.endsWith('/start') && req.method === 'POST') {
       try {
         const gameId = url.pathname.split('/')[3];
-        const body = await req.json() as { playerId: string };
-        
-        if (!gameId) {
-          return new Response(JSON.stringify({ error: 'Game ID required' }), {
-            status: 400,
-            headers: { 
-              'Content-Type': 'application/json',
-              ...corsHeaders 
-            }
-          });
-        }
+        const { playerId } = await req.json();
         
         const game = gameService.getGame(gameId);
         if (!game) {
@@ -224,7 +204,7 @@ const server = serve({
           });
         }
 
-        const player = game.players[body.playerId];
+        const player = game.players[playerId];
         if (!player?.isHost) {
           return new Response(JSON.stringify({ error: 'Only host can start game' }), {
             status: 403,
@@ -277,19 +257,9 @@ const server = serve({
     if (url.pathname.startsWith('/api/games/') && url.pathname.endsWith('/statements') && req.method === 'POST') {
       try {
         const gameId = url.pathname.split('/')[3];
-        const body = await req.json() as { playerId: string; statement: string };
+        const { playerId, statement } = await req.json();
         
-        if (!gameId) {
-          return new Response(JSON.stringify({ error: 'Game ID required' }), {
-            status: 400,
-            headers: { 
-              'Content-Type': 'application/json',
-              ...corsHeaders 
-            }
-          });
-        }
-        
-        const success = gameService.submitStatement(gameId, body.playerId, body.statement);
+        const success = gameService.submitStatement(gameId, playerId, statement);
         if (!success) {
           return new Response(JSON.stringify({ error: 'Failed to submit statement' }), {
             status: 400,
@@ -303,8 +273,8 @@ const server = serve({
         const game = gameService.getGame(gameId)!;
         
         // Mark player as having submitted statement
-        if (game.players[body.playerId]) {
-          game.players[body.playerId].hasSubmittedStatement = true;
+        if (game.players[playerId]) {
+          game.players[playerId].hasSubmittedStatement = true;
         }
 
         // Check if all players submitted and auto-advance to guessing
@@ -365,4 +335,4 @@ console.log('🏥 Health check: http://localhost:3001/health');
 // Cleanup inactive games every 5 minutes
 setInterval(() => {
   gameService.cleanupInactiveGames();
-}, 5 * 60 * 1000);
+}, 5 * 60 * 1000); 

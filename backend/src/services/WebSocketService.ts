@@ -63,6 +63,12 @@ export class WebSocketService {
         case 'join-room':
           this.handleJoinRoom(ws, parsedMessage);
           break;
+        case 'get-lobbies':
+          this.handleGetLobbies(ws);
+          break;
+        case 'join-lobby':
+          this.handleJoinLobby(ws, parsedMessage);
+          break;
         case 'submit-statement':
           this.handleSubmitStatement(ws, parsedMessage);
           break;
@@ -136,6 +142,53 @@ export class WebSocketService {
 
     } catch (error) {
       this.sendError(ws, error instanceof Error ? error.message : 'Failed to join room');
+    }
+  }
+
+  private handleGetLobbies(ws: ServerWebSocket<any>): void {
+    try {
+      const lobbies = this.gameService.getAvailableLobbies();
+      this.sendMessage(ws, {
+        type: 'lobbies-list',
+        lobbies,
+      });
+    } catch (error) {
+      console.error('Error getting lobbies:', error);
+      this.sendError(ws, 'Failed to get lobbies');
+    }
+  }
+
+  private handleJoinLobby(ws: ServerWebSocket<any>, message: { gameId: string; playerName: string }): void {
+    try {
+      const result = this.gameService.joinGameById(message.gameId, message.playerName);
+      if (!result) {
+        this.sendError(ws, 'Lobby not found');
+        return;
+      }
+
+      const { game, player } = result;
+      
+      const connection = this.connections.get(ws);
+      if (connection) {
+        connection.playerId = player.id;
+        connection.gameId = game.id;
+      }
+
+      // Send welcome message to new player
+      this.sendMessage(ws, {
+        type: 'player-joined',
+        player,
+        gameState: this.getGameState(game),
+      });
+
+      // Broadcast to all other players
+      this.broadcastToGame(game.id, {
+        type: 'game-state',
+        gameState: this.getGameState(game),
+      }, [player.id]);
+
+    } catch (error) {
+      this.sendError(ws, error instanceof Error ? error.message : 'Failed to join lobby');
     }
   }
 

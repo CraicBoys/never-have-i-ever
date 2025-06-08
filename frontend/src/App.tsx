@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast';
 import { useGameState } from './hooks/useGameState';
 import { GameLobby } from './components/game/GameLobby';
 import { WaitingRoom } from './components/game/WaitingRoom';
+import SubmitStatements from './components/SubmitStatements';
 import { GamePhase } from './types/game';
 
 function App() {
@@ -12,9 +13,13 @@ function App() {
     gameState,
     currentPlayer,
     canStartGame,
+    lobbies,
     createRoom,
     joinRoom,
+    joinLobby,
+    getLobbies,
     startGame,
+    submitStatement,
   } = useGameState();
 
   // Show lobby if no game state or not connected to a game
@@ -23,7 +28,9 @@ function App() {
       <>
         <GameLobby
           onCreateRoom={createRoom}
-          onJoinRoom={joinRoom}
+          onJoinLobby={joinLobby}
+          onGetLobbies={getLobbies}
+          lobbies={lobbies}
           isConnecting={isConnecting}
         />
         <Toaster position="top-center" />
@@ -47,7 +54,25 @@ function App() {
     );
   }
 
-  // TODO: Add other game phases
+  // Show statement submission phase
+  if (gameState.phase === GamePhase.SUBMITTING_STATEMENTS) {
+    return (
+      <>
+        <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-600 to-red-600 flex items-center justify-center p-4">
+          <SubmitStatements
+            players={gameState.players}
+            currentPlayerId={currentPlayer.id}
+            onSubmitStatement={submitStatement}
+            isHost={currentPlayer.isHost}
+            onStartNextPhase={() => console.log('Start next phase - to be implemented')}
+          />
+        </div>
+        <Toaster position="top-center" />
+      </>
+    );
+  }
+
+  // TODO: Add other game phases (guessing, drinking, results)
   return (
     <>
       <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-600 to-red-600 flex items-center justify-center p-4">

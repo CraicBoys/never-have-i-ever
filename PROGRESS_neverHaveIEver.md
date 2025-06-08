@@ -19,9 +19,9 @@
 - ✅ Room code generation utilities
 
 #### Frontend Implementation
-- ✅ Game lobby interface
-- ✅ Player joining workflow
-- ❌ Statement submission form
+- ✅ Game lobby interface (with beautiful lobby list!)
+- ✅ Player joining workflow (fixed second client bug)
+- ✅ Statement submission form
 - ❌ Guessing phase interface
 - ❌ Drinking phase display
 - ❌ Real-time leaderboard
@@ -30,7 +30,7 @@
 
 #### Core Features
 - ✅ Multiplayer room system (2-4 players)
-- ❌ Anonymous statement submission
+- ✅ Anonymous statement submission
 - ❌ Guessing mechanics with voting
 - ✅ Dual scoring system (drinks + guesses)
 - ✅ Real-time score updates
@@ -88,10 +88,22 @@ Based on research, the traditional "Never Have I Ever" game involves:
 - Room code generation and joining
 
 🔄 **Currently Working On:**
-- Statement submission phase
-- Guessing mechanics
-- Drinking phase interface
-- Final results display
+- ✅ Statement submission phase (COMPLETED)
+- ❌ Guessing mechanics
+- ❌ Drinking phase interface
+- ❌ Final results display
+
+**Latest Update (Current Session):**
+- ✅ Fixed infinite WebSocket reconnection loop
+- ✅ Created SubmitStatements component with beautiful UI
+- ✅ Added hasSubmittedStatement tracking to Player type
+- ✅ Integrated statement submission into main app flow
+- ✅ Real-time progress tracking for statement submissions
+- ✅ **REPLACED room codes with lobby list system!**
+- ✅ Fixed second client joining bug with proper game state sync
+- ✅ Added auto-refreshing lobby list (updates every 5 seconds)
+- ✅ Beautiful lobby UI showing host names, player counts, and game status
+- 🎯 **Ready for next phase: Guessing mechanics**
 
 ## 📅 Timeline Updates
 - **Initial Planning**: Completed PRD and TRD creation

@@ -34,13 +34,25 @@ export interface StartPhaseMessage {
   phase: GamePhase;
 }
 
+export interface GetLobbiesMessage {
+  type: 'get-lobbies';
+}
+
+export interface JoinLobbyMessage {
+  type: 'join-lobby';
+  gameId: string;
+  playerName: string;
+}
+
 export type ClientMessage = 
   | CreateRoomMessage 
   | JoinRoomMessage 
   | SubmitStatementMessage 
   | SubmitGuessMessage 
   | DrinkActionMessage 
-  | StartPhaseMessage;
+  | StartPhaseMessage
+  | GetLobbiesMessage
+  | JoinLobbyMessage;
 
 // Server -> Client Messages
 export interface RoomCreatedMessage {
@@ -87,6 +99,18 @@ export interface ErrorMessage {
   message: string;
 }
 
+export interface LobbiesListMessage {
+  type: 'lobbies-list';
+  lobbies: {
+    gameId: string;
+    hostName: string;
+    playerCount: number;
+    maxPlayers: number;
+    phase: GamePhase;
+    createdAt: string;
+  }[];
+}
+
 export type ServerMessage = 
   | RoomCreatedMessage 
   | PlayerJoinedMessage 
@@ -95,4 +119,5 @@ export type ServerMessage =
   | ScoresUpdatedMessage 
   | GameEndedMessage 
   | GameStateMessage
-  | ErrorMessage; 
+  | ErrorMessage
+  | LobbiesListMessage; 

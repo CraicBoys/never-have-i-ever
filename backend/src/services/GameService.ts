@@ -21,6 +21,7 @@ export class GameService {
       drinkCount: 0,
       guessScore: 0,
       connected: true,
+      hasSubmittedStatement: false,
     };
 
     const game: Game = {
@@ -75,6 +76,7 @@ export class GameService {
       drinkCount: 0,
       guessScore: 0,
       connected: true,
+      hasSubmittedStatement: false,
     };
 
     game.players[playerId] = player;
@@ -97,8 +99,7 @@ export class GameService {
     if (!statementText.trim() || statementText.length > 200) return false;
 
     // Check if player already submitted
-    const existingStatement = game.statements.find(s => s.authorId === playerId);
-    if (existingStatement) return false;
+    if (player.hasSubmittedStatement) return false;
 
     const statement: Statement = {
       id: generateStatementId(),
@@ -109,6 +110,7 @@ export class GameService {
     };
 
     game.statements.push(statement);
+    player.hasSubmittedStatement = true;
     game.lastActivity = new Date();
 
     return true;
@@ -213,9 +215,7 @@ export class GameService {
       if (voteCount < playerCount - 1) return false; // -1 because author doesn't vote
 
       // Calculate guess scores
-      if (currentStatement) {
-        this.calculateGuessScores(game, currentStatement);
-      }
+      this.calculateGuessScores(game, currentStatement);
 
       game.phase = GamePhase.DRINKING;
       game.lastActivity = new Date();
@@ -313,6 +313,85 @@ export class GameService {
   getGameByRoomCode(roomCode: string): Game | null {
     const gameId = this.roomCodeToGameId.get(roomCode);
     return gameId ? this.games.get(gameId) || null : null;
+  }
+
+  /**
+   * Gets all available lobbies (games in WAITING phase)
+   */
+  getAvailableLobbies(): Array<{
+    gameId: string;
+    hostName: string;
+    playerCount: number;
+    maxPlayers: number;
+    phase: GamePhase;
+    createdAt: string;
+  }> {
+    const lobbies: Array<{
+      gameId: string;
+      hostName: string;
+      playerCount: number;
+      maxPlayers: number;
+      phase: GamePhase;
+      createdAt: string;
+    }> = [];
+
+    for (const [gameId, game] of this.games.entries()) {
+      if (game.phase === GamePhase.WAITING) {
+        const host = Object.values(game.players).find(p => p.isHost);
+        if (host) {
+          lobbies.push({
+            gameId,
+            hostName: host.name,
+            playerCount: Object.keys(game.players).length,
+            maxPlayers: game.maxPlayers,
+            phase: game.phase,
+            createdAt: game.createdAt.toISOString(),
+          });
+        }
+      }
+    }
+
+    // Sort by creation time (newest first)
+    return lobbies.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }
+
+  /**
+   * Joins a game by game ID (for lobby system)
+   */
+  joinGameById(gameId: string, playerName: string): { game: Game; player: Player } | null {
+    const game = this.games.get(gameId);
+    if (!game) return null;
+
+    // Check if game is joinable
+    if (game.phase !== GamePhase.WAITING) {
+      throw new Error('Game has already started');
+    }
+
+    if (Object.keys(game.players).length >= game.maxPlayers) {
+      throw new Error('Game is full');
+    }
+
+    // Check for duplicate names
+    const existingNames = Object.values(game.players).map(p => p.name.toLowerCase());
+    if (existingNames.includes(playerName.toLowerCase())) {
+      throw new Error('Name already taken');
+    }
+
+    const playerId = generatePlayerId();
+    const player: Player = {
+      id: playerId,
+      name: playerName,
+      isHost: false,
+      drinkCount: 0,
+      guessScore: 0,
+      connected: true,
+      hasSubmittedStatement: false,
+    };
+
+    game.players[playerId] = player;
+    game.lastActivity = new Date();
+
+    return { game, player };
   }
 
   /**

@@ -5,6 +5,7 @@ export interface Player {
   drinkCount: number;
   guessScore: number;
   connected: boolean;
+  hasSubmittedStatement: boolean;
 }
 
 export interface Statement {

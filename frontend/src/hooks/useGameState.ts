@@ -1,13 +1,20 @@
-import { useState, useCallback } from 'react';
-import { useWebSocket } from './useWebSocket';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import type { GameState, Player, Statement, GameResults } from '../types/game';
 import { GamePhase } from '../types/game';
-import type { ServerMessage } from '../types/websocket';
 import toast from 'react-hot-toast';
 
-const WS_URL = process.env.NODE_ENV === 'production' 
-  ? 'wss://your-domain.com/game' 
-  : 'ws://localhost:3001/game';
+const API_BASE = process.env.NODE_ENV === 'production' 
+  ? 'https://your-domain.com/api' 
+  : 'http://localhost:3001/api';
+
+interface Lobby {
+  gameId: string;
+  hostName: string;
+  playerCount: number;
+  maxPlayers: number;
+  phase: GamePhase;
+  createdAt: string;
+}
 
 export function useGameState() {
   const [gameState, setGameState] = useState<GameState | null>(null);
@@ -15,128 +22,204 @@ export function useGameState() {
   const [currentStatement, setCurrentStatement] = useState<Statement | null>(null);
   const [gameResults, setGameResults] = useState<GameResults | null>(null);
   const [scores, setScores] = useState<{ [playerId: string]: { drinkCount: number; guessScore: number } }>({});
+  const [lobbies, setLobbies] = useState<Lobby[]>([]);
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [gameId, setGameId] = useState<string | null>(null);
+  const [playerId, setPlayerId] = useState<string | null>(null);
 
-  const handleMessage = useCallback((message: ServerMessage) => {
-    console.log('Received message:', message.type);
+  const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-    switch (message.type) {
-      case 'room-created':
-        setGameState(message.gameState);
-        const hostPlayer = message.gameState.players.find(p => p.id === message.playerId);
-        if (hostPlayer) {
-          setCurrentPlayer(hostPlayer);
-        }
-        toast.success(`Room created! Code: ${message.roomCode}`);
-        break;
+  // HTTP client helper
+  const apiCall = useCallback(async (endpoint: string, options: RequestInit = {}) => {
+    try {
+      const response = await fetch(`${API_BASE}${endpoint}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...options.headers,
+        },
+        ...options,
+      });
 
-      case 'player-joined':
-        setGameState(message.gameState);
-        if (message.player.id === currentPlayer?.id) {
-          setCurrentPlayer(message.player);
-        }
-        toast.success(`${message.player.name} joined the game!`);
-        break;
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Request failed' }));
+        throw new Error(errorData.error || 'Request failed');
+      }
 
-      case 'game-state':
-        setGameState(message.gameState);
-        break;
-
-      case 'phase-changed':
-        setGameState(message.gameState);
-        switch (message.phase) {
-          case GamePhase.SUBMITTING_STATEMENTS:
-            toast.success('Time to submit your statements!');
-            break;
-          case GamePhase.GUESSING:
-            toast.success('Guessing phase started!');
-            break;
-          case GamePhase.DRINKING:
-            toast.success('Time to drink!');
-            break;
-        }
-        break;
-
-      case 'statement-revealed':
-        setCurrentStatement(message.statement);
-        break;
-
-      case 'scores-updated':
-        setScores(message.scores);
-        break;
-
-      case 'game-ended':
-        setGameResults(message.results);
-        toast.success('Game finished! Check out the results!');
-        break;
-
-      case 'error':
-        toast.error(message.message);
-        break;
-
-      default:
-        console.warn('Unknown message type:', message);
+      return await response.json();
+    } catch (error) {
+      console.error('API call failed:', error);
+      throw error;
     }
-  }, [currentPlayer?.id]);
+  }, []);
 
-  const { isConnected, isConnecting, sendMessage } = useWebSocket(WS_URL, {
-    onMessage: handleMessage,
-    onConnect: () => {
-      toast.success('Connected to game server!');
-    },
-    onDisconnect: () => {
-      toast.error('Disconnected from game server');
-    },
-    onError: () => {
-      toast.error('Connection error');
-    },
-  });
+  // Poll for game state updates
+  const pollGameState = useCallback(async () => {
+    if (!gameId) return;
 
-  const createRoom = useCallback((playerName: string) => {
-    return sendMessage({
-      type: 'create-room',
-      playerName,
-    });
-  }, [sendMessage]);
+    try {
+      const data = await apiCall(`/games/${gameId}`);
+      setGameState(data.gameState);
+      
+      // Update current player data if we have one
+      if (playerId && data.gameState.players) {
+        const updatedPlayer = data.gameState.players.find((p: Player) => p.id === playerId);
+        if (updatedPlayer) {
+          setCurrentPlayer(updatedPlayer);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to poll game state:', error);
+    }
+  }, [gameId, playerId, apiCall]);
 
-  const joinRoom = useCallback((roomCode: string, playerName: string) => {
-    return sendMessage({
-      type: 'join-room',
-      roomCode: roomCode.toUpperCase(),
-      playerName,
-    });
-  }, [sendMessage]);
+  // Start polling when we have a game
+  useEffect(() => {
+    if (gameId) {
+      // Poll immediately
+      pollGameState();
+      
+      // Then poll every 2 seconds
+      pollingIntervalRef.current = setInterval(pollGameState, 2000);
+      
+      return () => {
+        if (pollingIntervalRef.current) {
+          clearInterval(pollingIntervalRef.current);
+          pollingIntervalRef.current = null;
+        }
+      };
+    }
+  }, [gameId, pollGameState]);
 
-  const submitStatement = useCallback((statement: string) => {
-    return sendMessage({
-      type: 'submit-statement',
-      statement,
-    });
-  }, [sendMessage]);
+  // Get lobbies
+  const getLobbies = useCallback(async () => {
+    try {
+      const data = await apiCall('/lobbies');
+      setLobbies(data.lobbies || []);
+      return true;
+    } catch (error) {
+      console.error('Failed to get lobbies:', error);
+      toast.error('Failed to get lobbies');
+      return false;
+    }
+  }, [apiCall]);
 
-  const submitGuess = useCallback((statementId: string, guessedAuthorId: string) => {
-    return sendMessage({
-      type: 'submit-guess',
-      statementId,
-      guessedAuthorId,
-    });
-  }, [sendMessage]);
+  // Create room
+  const createRoom = useCallback(async (playerName: string) => {
+    setIsConnecting(true);
+    try {
+      const data = await apiCall('/rooms', {
+        method: 'POST',
+        body: JSON.stringify({ playerName }),
+      });
 
-  const recordDrink = useCallback((statementId: string) => {
-    return sendMessage({
-      type: 'drink-action',
-      statementId,
-    });
-  }, [sendMessage]);
+      setGameId(data.gameId);
+      setPlayerId(data.playerId);
+      setGameState(data.gameState);
+      
+      // Find the current player
+      const player = data.gameState.players.find((p: Player) => p.id === data.playerId);
+      if (player) {
+        setCurrentPlayer(player);
+      }
 
-  const startGame = useCallback(() => {
-    return sendMessage({
-      type: 'start-phase',
-      phase: GamePhase.SUBMITTING_STATEMENTS,
-    });
-  }, [sendMessage]);
+      toast.success(`Room created! Code: ${data.roomCode}`);
+      return true;
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Failed to create room');
+      return false;
+    } finally {
+      setIsConnecting(false);
+    }
+  }, [apiCall]);
+
+  // Join lobby by game ID
+  const joinLobby = useCallback(async (lobbyGameId: string, playerName: string) => {
+    setIsConnecting(true);
+    try {
+      const data = await apiCall('/rooms/join', {
+        method: 'POST',
+        body: JSON.stringify({ gameId: lobbyGameId, playerName }),
+      });
+
+      setGameId(data.gameId);
+      setPlayerId(data.playerId);
+      setGameState(data.gameState);
+      
+      // Find the current player
+      const player = data.gameState.players.find((p: Player) => p.id === data.playerId);
+      if (player) {
+        setCurrentPlayer(player);
+      }
+
+      toast.success(`Joined ${data.gameState.players.find((p: Player) => p.isHost)?.name}'s game!`);
+      return true;
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Failed to join lobby');
+      return false;
+    } finally {
+      setIsConnecting(false);
+    }
+  }, [apiCall]);
+
+  // Legacy joinRoom for room codes (keeping for compatibility)
+  const joinRoom = useCallback(async (roomCode: string, playerName: string) => {
+    // For now, this functionality is replaced by joinLobby
+    toast.error('Room codes are no longer supported. Please use the lobby list instead.');
+    return false;
+  }, []);
+
+  // Start game
+  const startGame = useCallback(async () => {
+    if (!gameId || !playerId) return false;
+
+    try {
+      const data = await apiCall(`/games/${gameId}/start`, {
+        method: 'POST',
+        body: JSON.stringify({ playerId }),
+      });
+
+      setGameState(data.gameState);
+      toast.success('Game started! Time to submit statements.');
+      return true;
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Failed to start game');
+      return false;
+    }
+  }, [gameId, playerId, apiCall]);
+
+  // Submit statement
+  const submitStatement = useCallback(async (statement: string) => {
+    if (!gameId || !playerId) return false;
+
+    try {
+      const data = await apiCall(`/games/${gameId}/statements`, {
+        method: 'POST',
+        body: JSON.stringify({ playerId, statement }),
+      });
+
+      setGameState(data.gameState);
+      toast.success('Statement submitted!');
+      return true;
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Failed to submit statement');
+      return false;
+    }
+  }, [gameId, playerId, apiCall]);
+
+  // Placeholder functions for future implementation
+  const submitGuess = useCallback(async (statementId: string, guessedAuthorId: string) => {
+    toast.success('Guessing phase coming soon!');
+    return false;
+  }, []);
+
+  const recordDrink = useCallback(async (statementId: string) => {
+    toast.success('Drinking phase coming soon!');
+    return false;
+  }, []);
 
   const isHost = currentPlayer?.isHost || false;
   const canStartGame = gameState?.canStart && isHost && gameState.phase === GamePhase.WAITING;
+  const isConnected = !!gameId; // We're "connected" if we have a game ID
 
   return {
     // Connection state
@@ -149,6 +232,7 @@ export function useGameState() {
     currentStatement,
     gameResults,
     scores,
+    lobbies,
 
     // Computed state
     isHost,
@@ -157,6 +241,8 @@ export function useGameState() {
     // Actions
     createRoom,
     joinRoom,
+    joinLobby,
+    getLobbies,
     submitStatement,
     submitGuess,
     recordDrink,
