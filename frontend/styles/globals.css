@@ -145,190 +145,305 @@
 
 @layer components {
   .game-container {
-    @apply min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 p-6;
-    background-image: 
-      radial-gradient(at 20% 20%, #00ffff 0px, transparent 20%),
-      radial-gradient(at 80% 80%, #ff0080 0px, transparent 20%),
-      radial-gradient(at 40% 60%, #80ff00 0px, transparent 20%),
-      linear-gradient(45deg, transparent 40%, rgba(0, 255, 255, 0.1) 50%, transparent 60%);
-    animation: cyberpunkPulse 4s ease-in-out infinite;
+    @apply min-h-screen p-4;
+    background: 
+      linear-gradient(90deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 255, 0.03) 2px,
+        rgba(0, 255, 255, 0.03) 4px
+      );
+    font-family: 'Courier New', monospace;
+    position: relative;
+  }
+  
+  .game-container::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 255, 0, 0.1) 2px,
+      rgba(0, 255, 0, 0.1) 4px
+    );
+    pointer-events: none;
+    animation: scanlines 0.1s linear infinite;
   }
   
   .game-header {
-    @apply text-center mb-8;
+    @apply text-center mb-6;
+    border: 4px solid #00ff00;
+    background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+    padding: 20px;
+    position: relative;
+    box-shadow: 
+      inset 0 0 20px rgba(0, 255, 0, 0.2),
+      0 0 30px rgba(0, 255, 0, 0.3);
+  }
+  
+  .game-header::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #ff6b00, #ffd700, #00ff00, #00ffff);
+    z-index: -1;
+    border-radius: 4px;
   }
   
   .game-title {
-    @apply text-4xl md:text-6xl font-bold mb-2;
-    background: linear-gradient(45deg, #00ffff, #ff0080, #80ff00, #00ffff);
-    background-size: 300% 300%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: cyberpunkGlow 2s ease-in-out infinite alternate;
-    text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+    @apply text-3xl md:text-5xl font-bold mb-2;
+    font-family: 'Courier New', monospace;
+    color: #00ff00;
+    text-shadow: 
+      2px 2px 0px #008000,
+      4px 4px 0px #004000,
+      0 0 20px #00ff00;
+    animation: retroPulse 2s ease-in-out infinite;
+    letter-spacing: 2px;
   }
   
   .game-title.float {
-    @apply animate-pulse;
+    animation: retroBounce 1s ease-in-out infinite;
   }
   
   .game-subtitle {
-    @apply text-lg font-bold;
-    color: #00ffff;
-    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
-    animation: cyberpunkFlicker 3s ease-in-out infinite;
+    @apply text-sm font-bold;
+    color: #ffd700;
+    text-shadow: 1px 1px 0px #b8860b;
+    letter-spacing: 1px;
+    text-transform: uppercase;
   }
   
-  /* CYBERPUNK NEON CHAOS */
+  /* 8-BIT RETRO GAMING UI */
   .game-card {
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(20, 20, 20, 0.95));
-    border: 2px solid;
-    border-image: linear-gradient(45deg, #00ffff, #ff0080, #80ff00) 1;
+    background: linear-gradient(135deg, #2a2a3e, #1e1e32);
+    border: 6px solid;
+    border-image: linear-gradient(45deg, #ffd700, #ff6b00, #ff1744, #ffd700) 1;
     box-shadow: 
-      0 0 20px rgba(0, 255, 255, 0.3),
-      0 0 40px rgba(255, 0, 128, 0.2),
-      inset 0 0 20px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
+      inset 0 0 10px rgba(255, 215, 0, 0.2),
+      0 0 20px rgba(255, 215, 0, 0.4),
+      8px 8px 0px #444,
+      12px 12px 0px #222;
+    font-family: 'Courier New', monospace;
+    position: relative;
+  }
+  
+  .game-card::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 2px dashed #00ff00;
+    opacity: 0.3;
+    pointer-events: none;
   }
   
   .glass-effect {
-    background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 128, 0.1));
-    border: 1px solid rgba(0, 255, 255, 0.3);
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+    background: linear-gradient(135deg, rgba(0, 100, 0, 0.8), rgba(0, 50, 100, 0.8));
+    border: 4px solid #00ffff;
+    box-shadow: 
+      inset 0 0 20px rgba(0, 255, 255, 0.3),
+      0 0 30px rgba(0, 255, 255, 0.5);
   }
   
   .game-button {
-    background: linear-gradient(45deg, #ff0080, #00ffff, #80ff00, #ff0080);
-    background-size: 400% 400%;
-    color: black !important;
+    background: linear-gradient(145deg, #ff6b00, #ff8f00);
+    color: white !important;
     font-weight: 900;
-    border: none;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    font-family: 'Courier New', monospace;
+    border: 4px solid #ffd700;
+    text-shadow: 2px 2px 0px #b8860b;
     box-shadow: 
-      0 0 20px rgba(255, 0, 128, 0.6),
-      0 0 40px rgba(0, 255, 255, 0.4);
-    animation: cyberpunkButtonGlow 2s ease-in-out infinite;
-    transition: all 0.3s ease;
+      inset 0 0 10px rgba(255, 215, 0, 0.3),
+      4px 4px 0px #cc5500,
+      8px 8px 0px #222;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
   
   .game-button:hover {
-    transform: scale(1.05) rotate(1deg);
+    transform: translate(-2px, -2px);
     box-shadow: 
-      0 0 30px rgba(255, 0, 128, 0.8),
-      0 0 60px rgba(0, 255, 255, 0.6);
+      inset 0 0 15px rgba(255, 215, 0, 0.5),
+      6px 6px 0px #cc5500,
+      10px 10px 0px #222;
+    background: linear-gradient(145deg, #ff8f00, #ffb74d);
+  }
+  
+  .game-button:active {
+    transform: translate(2px, 2px);
+    box-shadow: 
+      inset 0 0 10px rgba(255, 215, 0, 0.3),
+      2px 2px 0px #cc5500,
+      4px 4px 0px #222;
   }
   
   .game-glow:hover {
+    transform: translate(-3px, -3px);
+    border-color: #00ff00;
     box-shadow: 
-      0 0 30px rgba(0, 255, 255, 0.5),
-      0 0 60px rgba(255, 0, 128, 0.3);
-    transform: translateY(-5px) scale(1.02);
-    border-color: #80ff00;
+      inset 0 0 15px rgba(255, 215, 0, 0.3),
+      0 0 30px rgba(0, 255, 0, 0.6),
+      10px 10px 0px #444,
+      15px 15px 0px #222;
   }
   
   .slide-up {
-    animation: cyberpunkSlideUp 0.8s ease-out;
+    animation: retroSlideUp 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
   
-  /* INSANE CYBERPUNK ANIMATIONS */
-  @keyframes cyberpunkPulse {
-    0%, 100% { filter: hue-rotate(0deg) brightness(1); }
-    33% { filter: hue-rotate(60deg) brightness(1.1); }
-    66% { filter: hue-rotate(120deg) brightness(0.9); }
+  /* RETRO ARCADE ANIMATIONS */
+  @keyframes scanlines {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(4px); }
   }
   
-  @keyframes cyberpunkGlow {
-    0% { 
-      background-position: 0% 50%;
-      filter: hue-rotate(0deg);
+  @keyframes retroPulse {
+    0%, 100% { 
+      text-shadow: 
+        2px 2px 0px #008000,
+        4px 4px 0px #004000,
+        0 0 20px #00ff00;
     }
-    100% { 
-      background-position: 100% 50%;
-      filter: hue-rotate(90deg);
+    50% { 
+      text-shadow: 
+        2px 2px 0px #008000,
+        4px 4px 0px #004000,
+        0 0 30px #00ff00,
+        0 0 40px #00ff00;
     }
   }
   
-  @keyframes cyberpunkFlicker {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.8; }
-    75% { opacity: 1; }
-    85% { opacity: 0.9; }
-    95% { opacity: 1; }
+  @keyframes retroBounce {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
   }
   
-  @keyframes cyberpunkButtonGlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  
-  @keyframes cyberpunkSlideUp {
+  @keyframes retroSlideUp {
     from {
       opacity: 0;
-      transform: translateY(30px) rotateX(20deg);
-      filter: blur(5px);
+      transform: translateY(50px) scale(0.8);
+    }
+    60% {
+      transform: translateY(-10px) scale(1.05);
     }
     to {
       opacity: 1;
-      transform: translateY(0) rotateX(0deg);
-      filter: blur(0px);
+      transform: translateY(0) scale(1);
+    }
+  }
+  
+  @keyframes pixelGlow {
+    0%, 100% { 
+      box-shadow: 0 0 5px #00ff00;
+    }
+    50% { 
+      box-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00;
     }
   }
 }
 
-/* CYBERPUNK TEXT REBELLION */
+/* 8-BIT RETRO TEXT STYLING */
 @layer utilities {
-  /* NEON TEXT ON DARK BACKGROUNDS */
+  /* RETRO GREEN TERMINAL TEXT */
   .game-container .text-muted-foreground {
-    color: #00ffff !important;
-    text-shadow: 0 0 8px rgba(0, 255, 255, 0.6) !important;
+    color: #00ff00 !important;
+    font-family: 'Courier New', monospace !important;
+    text-shadow: 1px 1px 0px #008000 !important;
   }
   
   .game-container .text-foreground {
-    color: #80ff00 !important;
-    text-shadow: 0 0 10px rgba(128, 255, 0, 0.8) !important;
+    color: #ffd700 !important;
+    font-family: 'Courier New', monospace !important;
+    text-shadow: 1px 1px 0px #b8860b !important;
     font-weight: 700 !important;
   }
   
-  /* DARK CARDS GET NEON TEXT */
-  .game-card h2, .game-card h3, .game-card h4, .game-card p, .game-card span, .game-card label {
-    color: #00ffff !important;
-    text-shadow: 0 0 5px rgba(0, 255, 255, 0.4) !important;
+  /* ARCADE CARD TEXT */
+  .game-card h2, .game-card h3, .game-card h4 {
+    color: #ffd700 !important;
+    font-family: 'Courier New', monospace !important;
+    text-shadow: 2px 2px 0px #b8860b !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+  }
+  
+  .game-card p, .game-card span, .game-card label {
+    color: #00ff00 !important;
+    font-family: 'Courier New', monospace !important;
+    text-shadow: 1px 1px 0px #008000 !important;
   }
   
   .game-card .text-muted-foreground {
-    color: #ff0080 !important;
-    text-shadow: 0 0 5px rgba(255, 0, 128, 0.4) !important;
+    color: #00ffff !important;
+    text-shadow: 1px 1px 0px #008b8b !important;
   }
   
   .game-card .text-sm {
-    color: #80ff00 !important;
-    text-shadow: 0 0 3px rgba(128, 255, 0, 0.4) !important;
+    color: #ff6b00 !important;
+    text-shadow: 1px 1px 0px #cc5500 !important;
+    font-weight: bold !important;
   }
   
-  /* STATUS INDICATORS GO WILD */
+  /* RETRO STATUS INDICATORS */
   .game-container [data-status="waiting"] {
-    color: #80ff00 !important;
-    text-shadow: 0 0 15px rgba(128, 255, 0, 1) !important;
-    animation: cyberpunkFlicker 2s ease-in-out infinite !important;
+    color: #00ff00 !important;
+    text-shadow: 
+      1px 1px 0px #008000,
+      0 0 10px #00ff00 !important;
+    animation: pixelGlow 1.5s ease-in-out infinite !important;
+    font-weight: bold !important;
   }
   
-  /* INPUT FIELDS NEED NEON TOO */
+  /* RETRO INPUT FIELDS */
   .game-container input, .game-container textarea {
-    background: rgba(0, 0, 0, 0.7) !important;
-    border: 2px solid #00ffff !important;
-    color: #80ff00 !important;
-    text-shadow: 0 0 5px rgba(128, 255, 0, 0.6) !important;
+    background: #1a1a2e !important;
+    border: 4px solid #00ff00 !important;
+    color: #ffd700 !important;
+    font-family: 'Courier New', monospace !important;
+    text-shadow: 1px 1px 0px #b8860b !important;
+    font-weight: bold !important;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7) !important;
   }
   
   .game-container input::placeholder, .game-container textarea::placeholder {
-    color: #ff0080 !important;
-    opacity: 0.7 !important;
+    color: #00ffff !important;
+    opacity: 0.8 !important;
+    font-family: 'Courier New', monospace !important;
   }
   
   .game-container input:focus, .game-container textarea:focus {
-    border-color: #ff0080 !important;
-    box-shadow: 0 0 20px rgba(255, 0, 128, 0.6) !important;
+    border-color: #ffd700 !important;
+    box-shadow: 
+      inset 0 0 10px rgba(0, 0, 0, 0.7),
+      0 0 20px rgba(255, 215, 0, 0.6) !important;
+    background: #252544 !important;
+  }
+  
+  /* RETRO PROGRESS BARS */
+  .game-container .bg-blue-600 {
+    background: linear-gradient(90deg, #00ff00, #ffd700) !important;
+  }
+  
+  /* RETRO BADGES */
+  .game-container .bg-green-500 {
+    background: #00ff00 !important;
+    color: #000 !important;
+    font-weight: 900 !important;
+    text-shadow: none !important;
   }
 }
+
