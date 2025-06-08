@@ -1,1248 +1,504 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Creepster&family=Nosifer&display=swap');
 
-@plugin "tailwindcss-animate";
-
-@custom-variant dark (&:is(.dark *));
-
-:root {
-  --background: hsl(0 0% 100%);
-  --foreground: hsl(240 10% 3.9%);
-  --card: hsl(0 0% 100%);
-  --card-foreground: hsl(240 10% 3.9%);
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(240 10% 3.9%);
-  --primary: hsl(240 5.9% 10%);
-  --primary-foreground: hsl(0 0% 98%);
-  --secondary: hsl(240 4.8% 95.9%);
-  --secondary-foreground: hsl(240 5.9% 10%);
-  --muted: hsl(240 4.8% 95.9%);
-  --muted-foreground: hsl(240 3.8% 46.1%);
-  --accent: hsl(240 4.8% 95.9%);
-  --accent-foreground: hsl(240 5.9% 10%);
-  --destructive: hsl(0 84.2% 60.2%);
-  --destructive-foreground: hsl(0 0% 98%);
-  --border: hsl(240 5.9% 90%);
-  --input: hsl(240 5.9% 90%);
-  --ring: hsl(240 10% 3.9%);
-  --chart-1: hsl(12 76% 61%);
-  --chart-2: hsl(173 58% 39%);
-  --chart-3: hsl(197 37% 24%);
-  --chart-4: hsl(43 74% 66%);
-  --chart-5: hsl(27 87% 67%);
-  --radius: 0.6rem;
-  --sidebar-background: hsl(0 0% 98%);
-  --sidebar-foreground: hsl(240 5.3% 26.1%);
-  --sidebar-primary: hsl(240 5.9% 10%);
-  --sidebar-primary-foreground: hsl(0 0% 98%);
-  --sidebar-accent: hsl(240 4.8% 95.9%);
-  --sidebar-accent-foreground: hsl(240 5.9% 10%);
-  --sidebar-border: hsl(220 13% 91%);
-  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.dark {
-  --background: hsl(240 10% 3.9%);
-  --foreground: hsl(0 0% 98%);
-  --card: hsl(240 10% 3.9%);
-  --card-foreground: hsl(0 0% 98%);
-  --popover: hsl(240 10% 3.9%);
-  --popover-foreground: hsl(0 0% 98%);
-  --primary: hsl(0 0% 98%);
-  --primary-foreground: hsl(240 5.9% 10%);
-  --secondary: hsl(240 3.7% 15.9%);
-  --secondary-foreground: hsl(0 0% 98%);
-  --muted: hsl(240 3.7% 15.9%);
-  --muted-foreground: hsl(240 5% 64.9%);
-  --accent: hsl(240 3.7% 15.9%);
-  --accent-foreground: hsl(0 0% 98%);
-  --destructive: hsl(0 62.8% 30.6%);
-  --destructive-foreground: hsl(0 0% 98%);
-  --border: hsl(240 3.7% 15.9%);
-  --input: hsl(240 3.7% 15.9%);
-  --ring: hsl(240 4.9% 83.9%);
-  --chart-1: hsl(220 70% 50%);
-  --chart-2: hsl(160 60% 45%);
-  --chart-3: hsl(30 80% 55%);
-  --chart-4: hsl(280 65% 60%);
-  --chart-5: hsl(340 75% 55%);
-  --sidebar-background: hsl(240 5.9% 10%);
-  --sidebar-foreground: hsl(240 4.8% 95.9%);
-  --sidebar-primary: hsl(224.3 76.3% 48%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(240 3.7% 15.9%);
-  --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
-  --sidebar-border: hsl(240 3.7% 15.9%);
-  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+body {
+  font-family: 'Comic Sans MS', 'Comic Neue', cursive;
+  background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff0000, #00ff00);
+  background-size: 400% 400%;
+  animation: psychedelicBackground 3s ease-in-out infinite;
+  color: #ff0080;
+  overflow-x: hidden;
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="8" fill="red"/></svg>'), auto;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar-background);
-  --animate-accordion-down: accordion-down 0.2s ease-out;
-  --animate-accordion-up: accordion-up 0.2s ease-out;
+@keyframes psychedelicBackground {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-  @keyframes accordion-down {
-    from {
-      height: 0;
-    }
-    to {
-      height: var(--radix-accordion-content-height);
-    }
+.App {
+  min-height: 100vh;
+  padding: 20px;
+  transform: rotate(-1deg);
+  animation: wobble 4s ease-in-out infinite;
+}
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(-1deg) scale(1); }
+  25% { transform: rotate(1deg) scale(1.02); }
+  50% { transform: rotate(-0.5deg) scale(0.98); }
+  75% { transform: rotate(0.8deg) scale(1.01); }
+}
+
+h1 {
+  font-family: 'Creepster', cursive;
+  font-size: clamp(2rem, 8vw, 6rem);
+  color: #00ff00;
+  text-shadow: 
+    3px 3px 0px #ff0000,
+    6px 6px 0px #0000ff,
+    9px 9px 0px #ffff00,
+    12px 12px 0px #ff00ff;
+  transform: skew(-15deg, 5deg);
+  animation: titleGlitch 2s infinite;
+  text-align: center;
+  margin: 20px 0;
+  border: 5px dashed #ff0080;
+  padding: 20px;
+  background: rgba(0, 255, 255, 0.3);
+  border-radius: 50px 0px 50px 0px;
+}
+
+@keyframes titleGlitch {
+  0%, 100% { 
+    transform: skew(-15deg, 5deg) translateX(0px);
+    text-shadow: 3px 3px 0px #ff0000, 6px 6px 0px #0000ff;
   }
-
-  @keyframes accordion-up {
-    from {
-      height: var(--radix-accordion-content-height);
-    }
-    to {
-      height: 0;
-    }
+  10% { 
+    transform: skew(-15deg, 5deg) translateX(5px);
+    text-shadow: -3px 3px 0px #ff0000, -6px 6px 0px #0000ff;
+  }
+  20% { 
+    transform: skew(-15deg, 5deg) translateX(-5px);
+    text-shadow: 3px -3px 0px #ff0000, 6px -6px 0px #0000ff;
   }
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(255, 255, 0, 0.7);
+  border: 10px solid #ff0000;
+  border-style: dotted double dashed groove;
+  border-radius: 0px 50px 0px 50px;
+  padding: 30px;
+  box-shadow: 
+    20px 20px 0px #00ff00,
+    40px 40px 0px #0000ff,
+    -10px -10px 0px #ff00ff;
+  transform: rotate(2deg);
+  animation: containerPulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes containerPulse {
+  0% { 
+    transform: rotate(2deg) scale(1);
+    box-shadow: 20px 20px 0px #00ff00, 40px 40px 0px #0000ff;
   }
-  body {
-    @apply bg-background text-foreground;
+  100% { 
+    transform: rotate(-1deg) scale(1.05);
+    box-shadow: -20px -20px 0px #ff0000, -40px -40px 0px #ffff00;
   }
 }
 
-@layer components {
-  .game-container {
-    @apply min-h-screen p-4;
-    background: 
-      linear-gradient(180deg, #000000 0%, #001100 50%, #000000 100%),
-      repeating-linear-gradient(
-        0deg,
-        transparent 0px,
-        rgba(0, 255, 0, 0.1) 1px,
-        transparent 2px,
-        transparent 20px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        transparent 0px,
-        rgba(255, 0, 0, 0.05) 1px,
-        transparent 2px,
-        transparent 100px
-      );
-    font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
-    position: relative;
-    overflow: hidden;
-    animation: matrixGlitch 0.1s linear infinite, screenFlicker 5s ease-in-out infinite;
+button {
+  font-family: 'Nosifer', cursive;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+  background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ffff00);
+  background-size: 300% 300%;
+  animation: buttonRainbow 2s linear infinite;
+  border: 5px solid #ff00ff;
+  border-radius: 0px 20px 0px 20px;
+  padding: 15px 25px;
+  margin: 10px;
+  cursor: pointer;
+  transform: skew(-10deg);
+  box-shadow: 
+    5px 5px 0px #000000,
+    10px 10px 0px #ff0080;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+@keyframes buttonRainbow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+button:hover {
+  transform: skew(10deg) scale(1.2) rotate(5deg);
+  box-shadow: 
+    -5px -5px 0px #00ffff,
+    -10px -10px 0px #ff8000;
+  animation: buttonShake 0.5s ease-in-out infinite;
+}
+
+@keyframes buttonShake {
+  0%, 100% { transform: skew(10deg) scale(1.2) rotate(5deg) translateX(0px); }
+  25% { transform: skew(10deg) scale(1.2) rotate(5deg) translateX(-5px); }
+  75% { transform: skew(10deg) scale(1.2) rotate(5deg) translateX(5px); }
+}
+
+button:active {
+  transform: skew(-5deg) scale(0.9) rotate(-3deg);
+  box-shadow: 2px 2px 0px #000000;
+}
+
+input[type="text"] {
+  font-family: 'Comic Sans MS', cursive;
+  font-size: 16px;
+  color: #ff0000;
+  background: linear-gradient(90deg, #ffff00, #00ffff);
+  border: 3px solid #ff00ff;
+  border-radius: 50px 0px 50px 0px;
+  padding: 15px 20px;
+  margin: 10px;
+  width: 200px;
+  transform: rotate(-2deg);
+  box-shadow: 5px 5px 0px #00ff00;
+  outline: none;
+}
+
+input[type="text"]:focus {
+  animation: inputGlow 1s ease-in-out infinite alternate;
+  transform: rotate(2deg) scale(1.1);
+}
+
+@keyframes inputGlow {
+  0% { 
+    box-shadow: 5px 5px 0px #00ff00, 0px 0px 20px #ff0000;
+    border-color: #ff00ff;
   }
-  
-  .game-container::before {
-    content: '01001000 01000001 01000011 01001011 01000101 01000100 00100000 01001001 01001110 00100000 01001000 01000001 01000011 01001011 01000101 01000100 00100000 01001001 01001110';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    color: #00ff00;
-    font-family: 'Courier New', monospace;
-    font-size: 10px;
-    line-height: 12px;
-    white-space: pre-wrap;
-    word-break: break-all;
-    pointer-events: none;
-    animation: matrixRain 2s linear infinite;
-    opacity: 0.3;
-    z-index: 1;
+  100% { 
+    box-shadow: -5px -5px 0px #0000ff, 0px 0px 40px #00ff00;
+    border-color: #ffff00;
   }
-  
-  .game-container::after {
-    content: '>>> SYSTEM_BREACH_DETECTED <<<\A>>> INITIATING_LOCKDOWN <<<\A>>> ACCESS_DENIED <<<\A>>> ERROR_404_REALITY_NOT_FOUND <<<';
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 2rem;
-    opacity: 0.1;
+}
+
+.player-list {
+  background: rgba(255, 0, 255, 0.4);
+  border: 5px ridge #00ff00;
+  border-radius: 0px 0px 50px 50px;
+  padding: 20px;
+  margin: 20px 0;
+  transform: skew(5deg);
+}
+
+.player-item {
+  background: rgba(0, 255, 255, 0.6);
+  border: 2px solid #ff0000;
+  border-radius: 20px 0px 20px 0px;
+  padding: 10px;
+  margin: 5px 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: #000080;
+  transform: rotate(-1deg);
+  box-shadow: 3px 3px 0px #ffff00;
+}
+
+.room-code {
+  font-family: 'Creepster', cursive;
+  font-size: 2rem;
+  color: #ff0000;
+  background: #ffff00;
+  border: 5px dashed #00ff00;
+  border-radius: 50%;
+  padding: 20px;
+  display: inline-block;
+  transform: rotate(15deg);
+  animation: codeSpinPulse 4s ease-in-out infinite;
+  text-shadow: 2px 2px 0px #0000ff;
+}
+
+@keyframes codeSpinPulse {
+  0%, 100% { 
+    transform: rotate(15deg) scale(1);
+    background: #ffff00;
+  }
+  25% { 
+    transform: rotate(-5deg) scale(1.1);
+    background: #00ffff;
+  }
+  50% { 
+    transform: rotate(25deg) scale(0.9);
+    background: #ff00ff;
+  }
+  75% { 
+    transform: rotate(5deg) scale(1.05);
+    background: #00ff00;
+  }
+}
+
+.game-phase {
+  background: rgba(255, 128, 0, 0.8);
+  border: 8px double #ff0080;
+  border-radius: 100px 0px 100px 0px;
+  padding: 25px;
+  margin: 20px 0;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #0000ff;
+  transform: skew(-8deg);
+  box-shadow: 
+    0px 0px 20px #ff0000,
+    inset 0px 0px 20px #00ff00;
+  animation: phaseFlicker 3s ease-in-out infinite;
+}
+
+@keyframes phaseFlicker {
+  0%, 100% { 
+    background: rgba(255, 128, 0, 0.8);
+    color: #0000ff;
+  }
+  33% { 
+    background: rgba(0, 255, 128, 0.8);
     color: #ff0000;
-    font-weight: 900;
-    font-family: 'Courier New', monospace;
-    letter-spacing: 2px;
-    text-align: center;
-    white-space: pre;
-    pointer-events: none;
-    animation: errorGlitch 3s ease-in-out infinite;
-    z-index: -1;
+  }
+  66% { 
+    background: rgba(128, 0, 255, 0.8);
+    color: #ffff00;
+  }
+}
+
+.error-message {
+  background: #ff0000;
+  color: #ffff00;
+  border: 5px solid #00ff00;
+  border-radius: 0px;
+  padding: 15px;
+  margin: 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  animation: errorBlink 1s ease-in-out infinite;
+  transform: rotate(-3deg);
+}
+
+@keyframes errorBlink {
+  0%, 100% { 
+    background: #ff0000;
+    color: #ffff00;
+    transform: rotate(-3deg);
+  }
+  50% { 
+    background: #ffff00;
+    color: #ff0000;
+    transform: rotate(3deg);
+  }
+}
+
+/* 🤖 MATRIX HACKER BOT 🤖 */
+.matrix-bot {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 4rem;
+  animation: botGlitch 3s ease-in-out infinite;
+  z-index: 1000;
+  filter: hue-rotate(180deg);
+}
+
+@keyframes botGlitch {
+  0%, 100% { 
+    transform: rotate(0deg) scale(1);
+    filter: hue-rotate(0deg);
+  }
+  25% { 
+    transform: rotate(10deg) scale(1.2);
+    filter: hue-rotate(90deg);
+  }
+  50% { 
+    transform: rotate(-15deg) scale(0.8);
+    filter: hue-rotate(180deg);
+  }
+  75% { 
+    transform: rotate(5deg) scale(1.1);
+    filter: hue-rotate(270deg);
+  }
+}
+
+/* ⚡ GLITCH MATRIX CHAOS ⚡ */
+.matrix-chaos {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 500;
+  overflow: hidden;
+}
+
+.glitch-text {
+  position: absolute;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #00ff00;
+  text-shadow: 0px 0px 10px #00ff00;
+  animation: matrixRain 8s linear infinite;
+}
+
+@keyframes matrixRain {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.error-1 { left: 10%; animation-delay: 0s; color: #ff0000; }
+.warning-1 { left: 20%; animation-delay: 1s; color: #ffff00; }
+.binary-1 { left: 30%; animation-delay: 2s; color: #00ff00; }
+.system-1 { left: 40%; animation-delay: 3s; color: #00ffff; }
+.breach-1 { left: 50%; animation-delay: 4s; color: #ff00ff; }
+.access-1 { left: 60%; animation-delay: 5s; color: #ff8000; }
+.hack-1 { left: 70%; animation-delay: 6s; color: #8000ff; }
+.virus-1 { left: 80%; animation-delay: 7s; color: #ff0080; }
+.firewall-1 { left: 90%; animation-delay: 0.5s; color: #80ff00; }
+.skull { left: 15%; animation-delay: 1.5s; color: #ffffff; font-size: 2rem; }
+.terminal { left: 25%; animation-delay: 2.5s; color: #ffffff; font-size: 2rem; }
+.lightning { left: 35%; animation-delay: 3.5s; color: #ffffff; font-size: 2rem; }
+.warning-2 { left: 45%; animation-delay: 4.5s; color: #ffff00; }
+.error-2 { left: 55%; animation-delay: 5.5s; color: #ff0000; }
+
+/* Extra terrible title effects */
+h1.game-title {
+  animation: titleChaos 4s ease-in-out infinite;
+}
+
+@keyframes titleChaos {
+  0%, 100% { 
+    transform: skew(-15deg, 5deg) translateX(0px) rotate(0deg);
+    filter: hue-rotate(0deg);
+  }
+  20% { 
+    transform: skew(10deg, -10deg) translateX(20px) rotate(5deg);
+    filter: hue-rotate(72deg);
+  }
+  40% { 
+    transform: skew(-25deg, 15deg) translateX(-15px) rotate(-8deg);
+    filter: hue-rotate(144deg);
+  }
+  60% { 
+    transform: skew(5deg, -20deg) translateX(10px) rotate(3deg);
+    filter: hue-rotate(216deg);
+  }
+  80% { 
+    transform: skew(-10deg, 8deg) translateX(-5px) rotate(-2deg);
+    filter: hue-rotate(288deg);
+  }
+}
+
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(2deg); }
+}
+
+/* Error message chaos */
+.error-message {
+  background: #ff0000;
+  color: #ffff00;
+  border: 5px solid #00ff00;
+  border-radius: 0px;
+  padding: 15px;
+  margin: 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  animation: errorBlink 1s ease-in-out infinite;
+  transform: rotate(-3deg);
+}
+
+@keyframes errorBlink {
+  0%, 100% { 
+    background: #ff0000;
+    color: #ffff00;
+    transform: rotate(-3deg);
+  }
+  50% { 
+    background: #ffff00;
+    color: #ff0000;
+    transform: rotate(3deg);
+  }
+}
+
+/* Make everything more offensive */
+* {
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+}
+
+/* Random floating elements */
+body::before {
+  content: "💀☠️🤖👾🔥⚡💥🌟✨🎭🎪🎨🎯🎲🎰🃏🎮";
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100vh;
+  font-size: 3rem;
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: -1;
+  animation: floatingEmojis 20s linear infinite;
+}
+
+@keyframes floatingEmojis {
+  0% { transform: translateX(-100%) rotate(0deg); }
+  100% { transform: translateX(100%) rotate(360deg); }
+}
+
+/* Responsive chaos */
+@media (max-width: 768px) {
+  .App {
+    transform: rotate(-3deg);
+    animation: mobileWobble 2s ease-in-out infinite;
   }
   
-  /* 🤖 MATRIX HACKER BOT 🤖 */
-  .matrix-bot {
-    content: '🤖';
-    position: fixed;
-    bottom: 20px;
-    font-size: 3rem;
-    z-index: 1000;
-    animation: botHack 12s linear infinite;
-    filter: drop-shadow(0 0 20px rgba(0, 255, 0, 0.8));
-    pointer-events: none;
+  @keyframes mobileWobble {
+    0%, 100% { transform: rotate(-3deg) translateX(0px); }
+    50% { transform: rotate(3deg) translateX(10px); }
   }
   
-  /* ⚡ GLITCH MATRIX CHAOS ⚡ */
-  .matrix-chaos {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
+  h1 {
+    font-size: 2.5rem;
+    transform: skew(-25deg, 10deg);
+  }
+  
+  .container {
+    transform: rotate(-4deg);
+    margin: 0 10px;
+  }
+  
+  button {
+    font-size: 14px;
+    transform: skew(-20deg);
+    padding: 10px 15px;
   }
   
   .glitch-text {
-    position: absolute;
-    font-family: 'Courier New', 'Monaco', monospace;
-    font-weight: 700;
-    pointer-events: none;
-    text-transform: uppercase;
-  }
-  
-  .error-1 {
-    top: 15%;
-    left: 10%;
-    color: #ff0040;
-    font-size: 1.2rem;
-    animation: errorGlitch1 3s ease-in-out infinite;
-    filter: drop-shadow(0 0 10px rgba(255, 0, 64, 0.8));
-  }
-  
-  .warning-1 {
-    top: 25%;
-    right: 15%;
-    color: #ffff00;
     font-size: 1rem;
-    animation: warningFlash 2s ease-in-out infinite;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 0, 0.8));
   }
   
-  .binary-1 {
-    top: 45%;
-    left: 5%;
-    color: #00ff00;
-    font-size: 0.9rem;
-    animation: binaryScroll 8s linear infinite;
-    filter: drop-shadow(0 0 5px rgba(0, 255, 0, 0.6));
-  }
-  
-  .system-1 {
-    top: 60%;
-    right: 25%;
-    color: #00ff00;
-    font-size: 1.1rem;
-    animation: systemPulse 4s ease-in-out infinite;
-    filter: drop-shadow(0 0 8px rgba(0, 255, 0, 0.7));
-  }
-  
-  .breach-1 {
-    top: 35%;
-    left: 70%;
-    color: #ff0040;
-    font-size: 1.3rem;
-    animation: breachAlert 1.5s ease-in-out infinite;
-    filter: drop-shadow(0 0 15px rgba(255, 0, 64, 1));
-  }
-  
-  .access-1 {
-    top: 75%;
-    left: 30%;
-    color: #ff0040;
-    font-size: 1rem;
-    animation: accessDenied 5s ease-in-out infinite;
-    filter: drop-shadow(0 0 12px rgba(255, 0, 64, 0.9));
-  }
-  
-  .hack-1 {
-    top: 20%;
-    left: 50%;
-    color: #00ff00;
-    font-size: 1.4rem;
-    animation: hackingProgress 6s linear infinite;
-    filter: drop-shadow(0 0 10px rgba(0, 255, 0, 0.8));
-  }
-  
-  .virus-1 {
-    bottom: 30%;
-    right: 10%;
-    color: #ff0040;
-    font-size: 1.1rem;
-    animation: virusSpread 4s ease-in-out infinite;
-    filter: drop-shadow(0 0 10px rgba(255, 0, 64, 0.8));
-  }
-  
-  .firewall-1 {
-    bottom: 45%;
-    left: 60%;
-    color: #ffff00;
-    font-size: 1rem;
-    animation: firewallBreach 3s ease-in-out infinite;
-    filter: drop-shadow(0 0 8px rgba(255, 255, 0, 0.7));
-  }
-  
-  .skull {
-    top: 85%;
-    right: 5%;
-    font-size: 2rem;
-    animation: skullFloat 7s ease-in-out infinite;
-    filter: drop-shadow(0 0 20px rgba(255, 0, 64, 0.8));
-  }
-  
-  .terminal {
-    top: 5%;
-    right: 30%;
-    font-size: 2.5rem;
-    animation: terminalBlink 2s ease-in-out infinite;
-    filter: drop-shadow(0 0 15px rgba(0, 255, 0, 0.8));
-  }
-  
-  .lightning {
-    bottom: 60%;
-    right: 40%;
+  .matrix-bot {
     font-size: 3rem;
-    animation: lightningStrike 1s ease-in-out infinite;
-    filter: drop-shadow(0 0 25px rgba(255, 255, 0, 1));
-  }
-  
-  .warning-2 {
-    bottom: 15%;
-    left: 40%;
-    color: #ffff00;
-    font-size: 1.2rem;
-    animation: corruptedData 9s ease-in-out infinite;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 0, 0.8));
-  }
-  
-  .error-2 {
-    top: 55%;
-    right: 5%;
-    color: #ff0040;
-    font-size: 1.5rem;
-    animation: fatalError 2.5s ease-in-out infinite;
-    filter: drop-shadow(0 0 20px rgba(255, 0, 64, 1));
-  }
-  
-  .game-header {
-    @apply text-left mb-12;
-    border: 3px solid #00ff00;
-    background: 
-      linear-gradient(180deg, #000000 0%, #001a00 50%, #000000 100%),
-      repeating-linear-gradient(
-        0deg,
-        transparent 0px,
-        rgba(0, 255, 0, 0.1) 1px,
-        transparent 1px,
-        transparent 3px
-      );
-    padding: 20px;
-    position: relative;
-    border-radius: 0px;
-    box-shadow: 
-      0 0 50px rgba(0, 255, 0, 0.6),
-      inset 0 0 20px rgba(0, 255, 0, 0.1),
-      5px 5px 0px #003300;
-    transform: skew(-5deg, 2deg);
-    animation: terminalGlitch 4s ease-in-out infinite;
-    overflow: hidden;
-    clip-path: polygon(0 0, 95% 0, 100% 80%, 5% 100%);
-  }
-  
-  .game-header::before {
-    content: '◆ ▲ ◆ ▼ ◆ ▲ ◆ ▼ ◆ ▲ ◆ ▼ ◆ ▲ ◆ ▼ ◆ ▲ ◆ ▼ ◆ ▲ ◆ ▼ ◆';
-    position: absolute;
-    top: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5, #ffbe0b);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-size: 16px;
-    letter-spacing: 4px;
-    animation: vaporwaveBorderRainbow 4s linear infinite;
-    font-weight: 900;
-  }
-  
-  .game-header::after {
-    content: '';
-    position: absolute;
-    top: -100%;
-    left: -100%;
-    width: 300%;
-    height: 300%;
-    background: 
-      radial-gradient(circle at 30% 20%, rgba(255, 0, 255, 0.2) 0%, transparent 40%),
-      radial-gradient(circle at 70% 80%, rgba(0, 255, 255, 0.2) 0%, transparent 40%),
-      radial-gradient(circle at 20% 70%, rgba(255, 20, 147, 0.15) 0%, transparent 40%);
-    animation: vaporwaveFloat 15s ease-in-out infinite;
-    pointer-events: none;
-    z-index: -1;
-  }
-  
-  .game-title {
-    @apply text-3xl md:text-5xl font-bold mb-2;
-    font-family: 'Courier New', 'Monaco', monospace;
-    color: #00ff00;
-    text-shadow: 
-      2px 2px 0px #008000,
-      0 0 10px #00ff00,
-      0 0 20px #00ff00;
-    animation: textCorruption 6s ease-in-out infinite;
-    letter-spacing: 2px;
-    transform: none;
-    filter: none;
-    position: relative;
-  }
-  
-  .game-title::before {
-    content: '[SYSTEM_ONLINE]';
-    position: absolute;
-    top: -25px;
-    left: 0;
-    font-size: 0.8rem;
-    color: #ff0040;
-    animation: statusBlink 2s ease-in-out infinite;
-  }
-  
-  .game-title.float {
-    animation: textCorruption 6s ease-in-out infinite, dataGlitch 0.3s linear infinite;
-  }
-  
-  .game-subtitle {
-    @apply text-sm font-bold;
-    color: #40ff40;
-    text-shadow: 
-      1px 1px 0px #208020,
-      0 0 5px #40ff40;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-family: 'Courier New', monospace;
-    animation: terminalType 8s ease-in-out infinite;
-    position: relative;
-  }
-  
-  .game-subtitle::after {
-    content: '_';
-    animation: cursorBlink 1s linear infinite;
-  }
-  
-  /* 8-BIT RETRO GAMING UI */
-  .game-card {
-    background: 
-      linear-gradient(180deg, #001100 0%, #000000 50%, #001100 100%),
-      repeating-linear-gradient(
-        0deg,
-        transparent 0px,
-        rgba(0, 255, 0, 0.05) 1px,
-        transparent 1px,
-        transparent 4px
-      );
-    border: 2px solid #00ff00;
-    border-radius: 0px;
-    box-shadow: 
-      0 0 30px rgba(0, 255, 0, 0.4),
-      inset 0 0 10px rgba(0, 255, 0, 0.1),
-      3px 3px 0px #003300,
-      -2px -2px 0px #ff0040;
-    font-family: 'Courier New', 'Monaco', monospace;
-    position: relative;
-    transform: skew(-2deg, 1deg);
-    animation: cardGlitch 7s ease-in-out infinite;
-    overflow: hidden;
-    clip-path: polygon(0 0, 97% 0, 100% 85%, 3% 100%);
-  }
-  
-  .game-card::before {
-    content: '[LOADING...]';
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    font-size: 0.7rem;
-    color: #ff0040;
-    font-family: 'Courier New', monospace;
-    animation: statusBlink 1.5s ease-in-out infinite;
-    z-index: 10;
-  }
-  
-  .game-card::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-      repeating-linear-gradient(
-        90deg,
-        transparent 0px,
-        rgba(255, 0, 64, 0.1) 1px,
-        transparent 2px,
-        transparent 200px
-      );
-    animation: scanlineGlitch 0.2s linear infinite;
-    pointer-events: none;
-  }
-  
-  .glass-effect {
-    background: linear-gradient(135deg, rgba(0, 100, 0, 0.8), rgba(0, 50, 100, 0.8));
-    border: 4px solid #00ffff;
-    box-shadow: 
-      inset 0 0 20px rgba(0, 255, 255, 0.3),
-      0 0 30px rgba(0, 255, 255, 0.5);
-  }
-  
-  .game-button {
-    background: 
-      linear-gradient(180deg, #003300 0%, #001100 50%, #003300 100%),
-      repeating-linear-gradient(
-        45deg,
-        transparent 0px,
-        rgba(0, 255, 0, 0.1) 1px,
-        transparent 2px,
-        transparent 10px
-      );
-    color: #00ff00 !important;
-    font-weight: 700;
-    font-family: 'Courier New', 'Monaco', monospace;
-    border: 2px solid #00ff00;
-    text-shadow: 
-      0 0 5px rgba(0, 255, 0, 0.8),
-      1px 1px 0px rgba(0, 0, 0, 1);
-    box-shadow: 
-      0 0 20px rgba(0, 255, 0, 0.4),
-      inset 0 0 10px rgba(0, 255, 0, 0.1),
-      2px 2px 0px #003300,
-      -1px -1px 0px #ff0040;
-    transition: all 0.1s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-radius: 0px;
-    position: relative;
-    overflow: hidden;
-    animation: buttonGlitch 5s ease-in-out infinite;
-    clip-path: polygon(0 0, 95% 0, 100% 70%, 5% 100%);
-  }
-  
-  .game-button::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
-    animation: vaporwaveButtonShine 3s ease-in-out infinite;
-    pointer-events: none;
-  }
-  
-  .game-button:hover {
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 
-      0 0 50px rgba(255, 0, 255, 0.8),
-      0 0 100px rgba(0, 255, 255, 0.6),
-      0 20px 40px rgba(0, 0, 0, 0.3),
-      inset 0 2px 0 rgba(255, 255, 255, 0.5);
-    animation: vaporwaveButtonRave 0.5s ease-in-out infinite;
-  }
-  
-  .game-button:active {
-    transform: translateY(-2px) scale(0.98);
-    box-shadow: 
-      0 0 30px rgba(255, 0, 255, 0.6),
-      0 0 60px rgba(0, 255, 255, 0.4),
-      0 5px 15px rgba(0, 0, 0, 0.3);
-  }
-  
-  .game-glow:hover {
-    transform: translate(-3px, -3px);
-    border-color: #00ff00;
-    box-shadow: 
-      inset 0 0 15px rgba(255, 215, 0, 0.3),
-      0 0 30px rgba(0, 255, 0, 0.6),
-      10px 10px 0px #444,
-      15px 15px 0px #222;
-  }
-  
-  .slide-up {
-    animation: retroSlideUp 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  }
-  
-  /* ⚡ MATRIX GLITCH MEGA ANIMATIONS ⚡ */
-  @keyframes matrixGlitch {
-    0%, 95% { 
-      filter: hue-rotate(0deg) saturate(1) brightness(1);
-      transform: translate(0px, 0px);
-    }
-    96% { 
-      filter: hue-rotate(90deg) saturate(2) brightness(1.5);
-      transform: translate(2px, -1px);
-    }
-    97% { 
-      filter: hue-rotate(180deg) saturate(0.5) brightness(0.8);
-      transform: translate(-1px, 2px);
-    }
-    98% { 
-      filter: hue-rotate(270deg) saturate(3) brightness(2);
-      transform: translate(1px, 1px);
-    }
-    99% { 
-      filter: hue-rotate(0deg) saturate(1) brightness(1);
-      transform: translate(-2px, -1px);
-    }
-  }
-  
-  @keyframes screenFlicker {
-    0%, 97% { 
-      opacity: 1;
-      filter: brightness(1);
-    }
-    98% { 
-      opacity: 0.95;
-      filter: brightness(1.2);
-    }
-    99% { 
-      opacity: 0.98;
-      filter: brightness(0.8);
-    }
-  }
-  
-  @keyframes matrixRain {
-    0% { 
-      transform: translateY(-100px);
-      opacity: 0;
-    }
-    10% { 
-      opacity: 1;
-    }
-    90% { 
-      opacity: 1;
-    }
-    100% { 
-      transform: translateY(calc(100vh + 100px));
-      opacity: 0;
-    }
-  }
-  
-  @keyframes errorGlitch {
-    0%, 90% { 
-      transform: translate(-50%, -50%) skew(0deg, 0deg);
-      opacity: 0.1;
-    }
-    91% { 
-      transform: translate(-48%, -52%) skew(2deg, -1deg);
-      opacity: 0.3;
-    }
-    93% { 
-      transform: translate(-52%, -48%) skew(-1deg, 2deg);
-      opacity: 0.2;
-    }
-    95% { 
-      transform: translate(-50%, -50%) skew(1deg, -2deg);
-      opacity: 0.4;
-    }
-    100% { 
-      transform: translate(-50%, -50%) skew(0deg, 0deg);
-      opacity: 0.1;
-    }
-  }
-  
-  @keyframes terminalGlitch {
-    0%, 85% { 
-      transform: skew(-5deg, 2deg);
-      filter: brightness(1);
-    }
-    86% { 
-      transform: skew(-3deg, 4deg) translate(2px, -1px);
-      filter: brightness(1.3);
-    }
-    88% { 
-      transform: skew(-7deg, 0deg) translate(-1px, 2px);
-      filter: brightness(0.7);
-    }
-    90% { 
-      transform: skew(-6deg, 3deg) translate(1px, 1px);
-      filter: brightness(1.5);
-    }
-    100% { 
-      transform: skew(-5deg, 2deg);
-      filter: brightness(1);
-    }
-  }
-  
-  @keyframes vaporwaveBorderRainbow {
-    0% { 
-      background-position: 0% 0%;
-      filter: hue-rotate(0deg) saturate(1.5);
-    }
-    100% { 
-      background-position: 100% 100%;
-      filter: hue-rotate(360deg) saturate(2);
-    }
-  }
-  
-  @keyframes vaporwaveSparkleRave {
-    0%, 100% { 
-      transform: rotate(0deg) scale(1);
-      filter: hue-rotate(0deg);
-    }
-    33% { 
-      transform: rotate(120deg) scale(1.3);
-      filter: hue-rotate(120deg);
-    }
-    66% { 
-      transform: rotate(240deg) scale(0.8);
-      filter: hue-rotate(240deg);
-    }
-  }
-  
-  @keyframes vaporwaveButtonPulse {
-    0%, 100% { 
-      box-shadow: 
-        0 0 30px rgba(255, 0, 255, 0.6),
-        0 0 60px rgba(0, 255, 255, 0.4);
-    }
-    50% { 
-      box-shadow: 
-        0 0 50px rgba(255, 0, 255, 0.8),
-        0 0 100px rgba(0, 255, 255, 0.6),
-        0 0 150px rgba(255, 20, 147, 0.4);
-    }
-  }
-  
-  @keyframes vaporwaveButtonShine {
-    0% { 
-      transform: translateX(-200%) translateY(-200%) rotate(45deg);
-    }
-    50% { 
-      transform: translateX(0%) translateY(0%) rotate(45deg);
-    }
-    100% { 
-      transform: translateX(200%) translateY(200%) rotate(45deg);
-    }
-  }
-  
-  @keyframes vaporwaveButtonRave {
-    0%, 100% { 
-      background: linear-gradient(135deg, #ff006e 0%, #8338ec 50%, #3a86ff 100%);
-    }
-    25% { 
-      background: linear-gradient(135deg, #8338ec 0%, #3a86ff 50%, #06ffa5 100%);
-    }
-    50% { 
-      background: linear-gradient(135deg, #3a86ff 0%, #06ffa5 50%, #ffbe0b 100%);
-    }
-    75% { 
-      background: linear-gradient(135deg, #06ffa5 0%, #ffbe0b 50%, #ff006e 100%);
-    }
-  }
-  
-  @keyframes botHack {
-    0% { 
-      left: -100px;
-      transform: scaleX(1) translateY(0px);
-      filter: drop-shadow(0 0 20px rgba(0, 255, 0, 0.8));
-    }
-    20% { 
-      left: 20%;
-      transform: scaleX(1) translateY(-5px);
-      filter: drop-shadow(0 0 30px rgba(255, 0, 64, 0.8));
-    }
-    40% { 
-      left: 40%;
-      transform: scaleX(1) translateY(0px);
-      filter: drop-shadow(0 0 25px rgba(255, 255, 0, 0.8));
-    }
-    60% { 
-      left: 60%;
-      transform: scaleX(-1) translateY(-8px);
-      filter: drop-shadow(0 0 35px rgba(0, 255, 0, 1));
-    }
-    80% { 
-      left: 80%;
-      transform: scaleX(-1) translateY(0px);
-      filter: drop-shadow(0 0 40px rgba(255, 0, 64, 0.9));
-    }
-    100% { 
-      left: calc(100% + 100px);
-      transform: scaleX(-1) translateY(0px);
-      filter: drop-shadow(0 0 20px rgba(0, 255, 0, 0.8));
-    }
-  }
-  
-  @keyframes errorGlitch1 {
-    0%, 85% { 
-      transform: none; 
-      opacity: 1; 
-      filter: brightness(1);
-    }
-    87% { 
-      transform: translate(3px, -2px) skew(2deg); 
-      opacity: 0.7; 
-      filter: brightness(1.5);
-    }
-    89% { 
-      transform: translate(-2px, 3px) skew(-1deg); 
-      opacity: 0.9; 
-      filter: brightness(0.8);
-    }
-    91% { 
-      transform: translate(1px, 1px) skew(1deg); 
-      opacity: 0.6; 
-      filter: brightness(2);
-    }
-    100% { 
-      transform: none; 
-      opacity: 1; 
-      filter: brightness(1);
-    }
-  }
-  
-  @keyframes warningFlash {
-    0%, 70% { opacity: 1; color: #ffff00; }
-    80% { opacity: 0.3; color: #ff8800; }
-    90% { opacity: 0.8; color: #ffff00; }
-    100% { opacity: 1; color: #ffff00; }
-  }
-  
-  @keyframes binaryScroll {
-    0% { transform: translateX(-50px); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { transform: translateX(calc(100vw + 50px)); opacity: 0; }
-  }
-  
-  @keyframes systemPulse {
-    0%, 100% { 
-      transform: scale(1); 
-      filter: brightness(1); 
-    }
-    50% { 
-      transform: scale(1.1); 
-      filter: brightness(1.5); 
-    }
-  }
-  
-  @keyframes breachAlert {
-    0%, 50% { 
-      transform: scale(1); 
-      opacity: 1; 
-      color: #ff0040; 
-    }
-    25% { 
-      transform: scale(1.2); 
-      opacity: 0.7; 
-      color: #ffff00; 
-    }
-    75% { 
-      transform: scale(0.9); 
-      opacity: 0.9; 
-      color: #ff0040; 
-    }
-  }
-  
-  @keyframes accessDenied {
-    0%, 80% { 
-      transform: none; 
-      color: #ff0040; 
-    }
-    85% { 
-      transform: translate(2px, -1px); 
-      color: #ffff00; 
-    }
-    90% { 
-      transform: translate(-1px, 2px); 
-      color: #ff0040; 
-    }
-    95% { 
-      transform: translate(1px, 1px); 
-      color: #ffff00; 
-    }
-  }
-  
-  @keyframes hackingProgress {
-    0% { content: "[HACKING.]"; }
-    25% { content: "[HACKING..]"; }
-    50% { content: "[HACKING...]"; }
-    75% { content: "[HACKING....]"; }
-    100% { content: "[HACKING.....]"; }
-  }
-  
-  @keyframes virusSpread {
-    0%, 100% { 
-      transform: scale(1) rotate(0deg); 
-      filter: hue-rotate(0deg); 
-    }
-    50% { 
-      transform: scale(1.3) rotate(180deg); 
-      filter: hue-rotate(180deg); 
-    }
-  }
-  
-  @keyframes firewallBreach {
-    0%, 60% { opacity: 1; }
-    70% { opacity: 0.2; }
-    80% { opacity: 0.8; }
-    90% { opacity: 0.1; }
-    100% { opacity: 1; }
-  }
-  
-  @keyframes skullFloat {
-    0%, 100% { 
-      transform: translateY(0px) rotate(0deg); 
-    }
-    50% { 
-      transform: translateY(-20px) rotate(10deg); 
-    }
-  }
-  
-  @keyframes terminalBlink {
-    0%, 70% { opacity: 1; }
-    80% { opacity: 0.3; }
-    90% { opacity: 0.7; }
-    100% { opacity: 1; }
-  }
-  
-  @keyframes lightningStrike {
-    0%, 90% { 
-      transform: scale(1); 
-      filter: brightness(1); 
-    }
-    95% { 
-      transform: scale(1.5); 
-      filter: brightness(3); 
-    }
-    100% { 
-      transform: scale(1); 
-      filter: brightness(1); 
-    }
-  }
-  
-  @keyframes corruptedData {
-    0% { content: "[CORRUPTED]"; }
-    20% { content: "[C0RRuPT3D]"; }
-    40% { content: "[C##RuP#3D]"; }
-    60% { content: "[###RuP###]"; }
-    80% { content: "[CORRUPTED]"; }
-    100% { content: "[CORRUPTED]"; }
-  }
-  
-  @keyframes fatalError {
-    0%, 80% { 
-      transform: none; 
-      opacity: 1; 
-    }
-    85% { 
-      transform: translate(5px, -3px) skew(3deg); 
-      opacity: 0.5; 
-    }
-    90% { 
-      transform: translate(-3px, 5px) skew(-2deg); 
-      opacity: 0.8; 
-    }
-    95% { 
-      transform: translate(2px, 2px) skew(1deg); 
-      opacity: 0.3; 
-    }
-    100% { 
-      transform: none; 
-      opacity: 1; 
-    }
-  }
-  
-  @keyframes pixelGlow {
-    0%, 100% { 
-      box-shadow: 0 0 20px rgba(255, 0, 255, 0.6);
-      text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
-    }
-    50% { 
-      box-shadow: 0 0 40px rgba(255, 0, 255, 0.8), 0 0 80px rgba(0, 255, 255, 0.6);
-      text-shadow: 0 0 40px rgba(0, 255, 255, 1), 0 0 60px rgba(255, 0, 255, 0.8);
-    }
-  }
-  
-  /* ⚡ GLITCH TEXT CHAOS ANIMATIONS ⚡ */
-  @keyframes textCorruption {
-    0%, 80% { 
-      transform: none;
-      text-shadow: 2px 2px 0px #008000, 0 0 10px #00ff00, 0 0 20px #00ff00;
-    }
-    82% { 
-      transform: translate(2px, -1px) skew(1deg);
-      text-shadow: 1px 1px 0px #ff0040, 0 0 15px #ff0040;
-    }
-    84% { 
-      transform: translate(-1px, 2px) skew(-2deg);
-      text-shadow: 3px 3px 0px #008000, 0 0 5px #00ff00;
-    }
-    86% { 
-      transform: translate(1px, 1px) skew(1deg);
-      text-shadow: 2px 2px 0px #ffff00, 0 0 25px #ffff00;
-    }
-    100% { 
-      transform: none;
-      text-shadow: 2px 2px 0px #008000, 0 0 10px #00ff00, 0 0 20px #00ff00;
-    }
-  }
-  
-  @keyframes dataGlitch {
-    0%, 90% { transform: none; }
-    91% { transform: translate(2px, 0px); }
-    93% { transform: translate(-2px, 1px); }
-    95% { transform: translate(1px, -1px); }
-    97% { transform: translate(-1px, 2px); }
-    100% { transform: none; }
-  }
-  
-  @keyframes statusBlink {
-    0%, 50% { opacity: 1; color: #ff0040; }
-    25% { opacity: 0.3; color: #ffff00; }
-    75% { opacity: 0.7; color: #ff0040; }
-    100% { opacity: 1; color: #ff0040; }
-  }
-  
-  @keyframes terminalType {
-    0% { content: ""; }
-    10% { content: "the"; }
-    20% { content: "the u"; }
-    30% { content: "the ult"; }
-    40% { content: "the ultimate"; }
-    50% { content: "the ultimate p"; }
-    60% { content: "the ultimate par"; }
-    70% { content: "the ultimate party"; }
-    80% { content: "the ultimate party g"; }
-    90% { content: "the ultimate party gam"; }
-    100% { content: "the ultimate party game"; }
-  }
-  
-  @keyframes cursorBlink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
-  }
-  
-  @keyframes cardGlitch {
-    0%, 95% { 
-      transform: skew(-2deg, 1deg);
-      box-shadow: 0 0 30px rgba(0, 255, 0, 0.4), inset 0 0 10px rgba(0, 255, 0, 0.1), 3px 3px 0px #003300, -2px -2px 0px #ff0040;
-    }
-    96% { 
-      transform: skew(-4deg, 3deg) translate(1px, -1px);
-      box-shadow: 0 0 50px rgba(255, 0, 64, 0.6), inset 0 0 15px rgba(255, 0, 64, 0.2), 5px 5px 0px #330000, -1px -1px 0px #00ff40;
-    }
-    98% { 
-      transform: skew(0deg, -1deg) translate(-2px, 1px);
-      box-shadow: 0 0 40px rgba(255, 255, 0, 0.5), inset 0 0 20px rgba(255, 255, 0, 0.1), 2px 2px 0px #333300, -3px -3px 0px #ff0040;
-    }
-    100% { 
-      transform: skew(-2deg, 1deg);
-      box-shadow: 0 0 30px rgba(0, 255, 0, 0.4), inset 0 0 10px rgba(0, 255, 0, 0.1), 3px 3px 0px #003300, -2px -2px 0px #ff0040;
-    }
-  }
-  
-  @keyframes scanlineGlitch {
-    0% { transform: translateY(0px); opacity: 0.1; }
-    50% { transform: translateY(10px); opacity: 0.3; }
-    100% { transform: translateY(20px); opacity: 0.1; }
-  }
-  
-  @keyframes buttonGlitch {
-    0%, 92% { 
-      transform: none;
-      box-shadow: 0 0 20px rgba(0, 255, 0, 0.4), inset 0 0 10px rgba(0, 255, 0, 0.1), 2px 2px 0px #003300, -1px -1px 0px #ff0040;
-    }
-    93% { 
-      transform: translate(1px, -1px) skew(1deg);
-      box-shadow: 0 0 30px rgba(255, 0, 64, 0.6), inset 0 0 15px rgba(255, 0, 64, 0.2), 3px 3px 0px #330000, -2px -2px 0px #00ff40;
-    }
-    95% { 
-      transform: translate(-1px, 1px) skew(-1deg);
-      box-shadow: 0 0 25px rgba(255, 255, 0, 0.5), inset 0 0 12px rgba(255, 255, 0, 0.1), 1px 1px 0px #333300, -3px -3px 0px #ff0040;
-    }
-    100% { 
-      transform: none;
-      box-shadow: 0 0 20px rgba(0, 255, 0, 0.4), inset 0 0 10px rgba(0, 255, 0, 0.1), 2px 2px 0px #003300, -1px -1px 0px #ff0040;
-    }
-  }
-}
-
-/* 🌈 VAPORWAVE SYNTHWAVE TEXT STYLING 🌈 */
-@layer utilities {
-  /* NEON GLOWING TEXT */
-  .game-container .text-muted-foreground {
-    color: #ff00ff !important;
-    font-family: 'Impact', 'Arial Black', sans-serif !important;
-    text-shadow: 
-      0 0 10px rgba(255, 0, 255, 0.8),
-      0 0 20px rgba(255, 0, 255, 0.6),
-      0 0 30px rgba(255, 0, 255, 0.4) !important;
-    animation: pixelGlow 2s ease-in-out infinite !important;
-  }
-  
-  .game-container .text-foreground {
-    color: #00ffff !important;
-    font-family: 'Impact', 'Arial Black', sans-serif !important;
-    text-shadow: 
-      0 0 10px rgba(0, 255, 255, 0.8),
-      0 0 20px rgba(0, 255, 255, 0.6),
-      0 0 30px rgba(0, 255, 255, 0.4) !important;
-    font-weight: 900 !important;
-    animation: pixelGlow 2.5s ease-in-out infinite !important;
-  }
-  
-  /* AESTHETIC CARD TEXT */
-  .game-card h2, .game-card h3, .game-card h4 {
-    background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5);
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-clip: text !important;
-    font-family: 'Impact', 'Arial Black', sans-serif !important;
-    text-shadow: 
-      0 0 20px rgba(255, 0, 255, 0.6),
-      0 0 40px rgba(0, 255, 255, 0.4) !important;
-    text-transform: uppercase !important;
-    letter-spacing: 3px !important;
-    animation: vaporwaveBorderRainbow 4s linear infinite !important;
-  }
-  
-  .game-card p, .game-card span, .game-card label {
-    color: #ff1493 !important;
-    font-family: 'Impact', 'Arial Black', sans-serif !important;
-    text-shadow: 
-      0 0 10px rgba(255, 20, 147, 0.8),
-      0 0 20px rgba(255, 20, 147, 0.4) !important;
-    font-weight: 600 !important;
-  }
-  
-  .game-card .text-muted-foreground {
-    color: #00ffff !important;
-    text-shadow: 
-      0 0 10px rgba(0, 255, 255, 0.8),
-      0 0 20px rgba(0, 255, 255, 0.4) !important;
-    animation: pixelGlow 3s ease-in-out infinite !important;
-  }
-  
-  .game-card .text-sm {
-    color: #ffbe0b !important;
-    text-shadow: 
-      0 0 10px rgba(255, 190, 11, 0.8),
-      0 0 20px rgba(255, 190, 11, 0.4) !important;
-    font-weight: 900 !important;
-    animation: vaporwaveSparkleRave 2s ease-in-out infinite !important;
-  }
-  
-  /* NEON STATUS INDICATORS */
-  .game-container [data-status="waiting"] {
-    background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff);
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-clip: text !important;
-    text-shadow: 
-      0 0 20px rgba(255, 0, 255, 0.8),
-      0 0 40px rgba(0, 255, 255, 0.6) !important;
-    animation: vaporwaveBorderRainbow 2s linear infinite !important;
-    font-weight: 900 !important;
-  }
-  
-  /* AESTHETIC INPUT FIELDS */
-  .game-container input, .game-container textarea {
-    background: 
-      linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(0, 255, 255, 0.1)),
-      rgba(0, 0, 0, 0.8) !important;
-    border: 2px solid transparent !important;
-    background-clip: padding-box !important;
-    color: #00ffff !important;
-    font-family: 'Impact', 'Arial Black', sans-serif !important;
-    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8) !important;
-    font-weight: 700 !important;
-    box-shadow: 
-      0 0 30px rgba(255, 0, 255, 0.4),
-      inset 0 0 20px rgba(0, 0, 0, 0.8) !important;
-    border-radius: 10px !important;
-  }
-  
-  .game-container input::before, .game-container textarea::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5);
-    border-radius: inherit;
-    z-index: -1;
-    animation: vaporwaveBorderRainbow 3s linear infinite;
-  }
-  
-  .game-container input::placeholder, .game-container textarea::placeholder {
-    color: #ff1493 !important;
-    opacity: 0.8 !important;
-    font-family: 'Impact', 'Arial Black', sans-serif !important;
-    text-shadow: 0 0 10px rgba(255, 20, 147, 0.6) !important;
-  }
-  
-  .game-container input:focus, .game-container textarea:focus {
-    box-shadow: 
-      0 0 50px rgba(255, 0, 255, 0.8),
-      0 0 100px rgba(0, 255, 255, 0.6),
-      inset 0 0 20px rgba(0, 0, 0, 0.8) !important;
-    background: 
-      linear-gradient(135deg, rgba(255, 0, 255, 0.2), rgba(0, 255, 255, 0.2)),
-      rgba(0, 0, 0, 0.9) !important;
-    animation: pixelGlow 1s ease-in-out infinite !important;
-  }
-  
-  /* VAPORWAVE PROGRESS BARS */
-  .game-container .bg-blue-600 {
-    background: linear-gradient(90deg, #ff006e, #8338ec, #3a86ff, #06ffa5) !important;
-    animation: vaporwaveBorderRainbow 2s linear infinite !important;
-  }
-  
-  /* AESTHETIC BADGES */
-  .game-container .bg-green-500 {
-    background: linear-gradient(45deg, #ff006e, #8338ec) !important;
-    color: white !important;
-    font-weight: 900 !important;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8) !important;
-    box-shadow: 0 0 20px rgba(255, 0, 255, 0.6) !important;
-    animation: vaporwaveButtonPulse 2s ease-in-out infinite !important;
+    top: 10px;
+    right: 10px;
   }
 }
 
