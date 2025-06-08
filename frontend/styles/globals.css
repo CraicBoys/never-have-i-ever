@@ -147,16 +147,28 @@
   .game-container {
     @apply min-h-screen p-4;
     background: 
-      linear-gradient(90deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%),
+      linear-gradient(135deg, #ff006e 0%, #8338ec 25%, #3a86ff 50%, #06ffa5 75%, #ffbe0b 100%),
+      radial-gradient(circle at 20% 80%, rgba(255, 0, 110, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(131, 56, 236, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(6, 255, 165, 0.3) 0%, transparent 50%),
+      repeating-linear-gradient(
+        90deg,
+        transparent 0px,
+        rgba(255, 255, 255, 0.03) 1px,
+        transparent 2px,
+        transparent 40px
+      ),
       repeating-linear-gradient(
         0deg,
-        transparent,
+        transparent 0px,
+        rgba(255, 255, 255, 0.03) 1px,
         transparent 2px,
-        rgba(0, 255, 255, 0.03) 2px,
-        rgba(0, 255, 255, 0.03) 4px
+        transparent 40px
       );
-    font-family: 'Courier New', monospace;
+    font-family: 'Impact', 'Arial Black', sans-serif;
     position: relative;
+    overflow-x: hidden;
+    animation: vaporwaveShift 10s ease-in-out infinite;
   }
   
   .game-container::before {
@@ -164,90 +176,331 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0, 255, 0, 0.1) 2px,
-      rgba(0, 255, 0, 0.1) 4px
-    );
+    width: 200%;
+    height: 200%;
+    background: 
+      repeating-linear-gradient(
+        45deg,
+        transparent 0px,
+        rgba(255, 0, 255, 0.1) 1px,
+        transparent 2px,
+        transparent 60px
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        transparent 0px,
+        rgba(0, 255, 255, 0.1) 1px,
+        transparent 2px,
+        transparent 60px
+      );
     pointer-events: none;
-    animation: scanlines 0.1s linear infinite;
+    animation: vaporwaveGrid 15s linear infinite;
+    transform-origin: center;
+  }
+  
+  .game-container::after {
+    content: '🌴 A E S T H E T I C 🌴';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 8rem;
+    opacity: 0.03;
+    color: #ff006e;
+    font-weight: 900;
+    letter-spacing: 2rem;
+    pointer-events: none;
+    animation: vaporwaveFloat 8s ease-in-out infinite;
+    z-index: -1;
+  }
+  
+  /* 🐕 CYBER PUPPY RUNNING ANIMATION 🐕 */
+  .cyber-puppy {
+    content: '🐕';
+    position: fixed;
+    bottom: 20px;
+    font-size: 4rem;
+    z-index: 1000;
+    animation: puppyRun 8s linear infinite;
+    filter: drop-shadow(0 0 20px rgba(255, 0, 255, 0.8));
+    pointer-events: none;
+  }
+  
+  /* 🌟 FLOATING VAPORWAVE GEOMETRIC CHAOS 🌟 */
+  .vaporwave-geometry {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  
+  .floating-shape {
+    position: absolute;
+    font-size: 2rem;
+    font-weight: 900;
+    pointer-events: none;
+  }
+  
+  .triangle-1 {
+    top: 10%;
+    left: 15%;
+    color: #ff006e;
+    animation: vaporwaveFloat1 12s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255, 0, 110, 0.8));
+  }
+  
+  .diamond-1 {
+    top: 25%;
+    right: 20%;
+    color: #8338ec;
+    animation: vaporwaveFloat2 15s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(131, 56, 236, 0.8));
+  }
+  
+  .circle-1 {
+    top: 60%;
+    left: 10%;
+    color: #3a86ff;
+    animation: vaporwaveFloat3 18s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(58, 134, 255, 0.8));
+  }
+  
+  .triangle-2 {
+    top: 40%;
+    right: 10%;
+    color: #06ffa5;
+    animation: vaporwaveFloat4 14s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(6, 255, 165, 0.8));
+  }
+  
+  .diamond-2 {
+    top: 70%;
+    right: 30%;
+    color: #ffbe0b;
+    animation: vaporwaveFloat5 16s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255, 190, 11, 0.8));
+  }
+  
+  .square-1 {
+    top: 20%;
+    left: 70%;
+    color: #ff1493;
+    animation: vaporwaveFloat6 13s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.8));
+  }
+  
+  .star-1 {
+    top: 50%;
+    left: 80%;
+    color: #00ffff;
+    animation: vaporwaveFloat7 17s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.8));
+  }
+  
+  .triangle-3 {
+    top: 80%;
+    left: 40%;
+    color: #ff4500;
+    animation: vaporwaveFloat8 11s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255, 69, 0, 0.8));
+  }
+  
+  .circle-2 {
+    top: 30%;
+    left: 40%;
+    color: #9400d3;
+    animation: vaporwaveFloat9 19s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(148, 0, 211, 0.8));
+  }
+  
+  .diamond-3 {
+    top: 90%;
+    right: 60%;
+    color: #ff00ff;
+    animation: vaporwaveFloat10 20s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255, 0, 255, 0.8));
+  }
+  
+  .floating-palm {
+    top: 15%;
+    right: 5%;
+    font-size: 3rem;
+    animation: vaporwavePalmSway 8s ease-in-out infinite;
+    filter: drop-shadow(0 0 30px rgba(255, 0, 255, 0.6));
+  }
+  
+  .floating-sunset {
+    top: 5%;
+    left: 5%;
+    font-size: 2.5rem;
+    animation: vaporwaveSunset 25s linear infinite;
+    filter: drop-shadow(0 0 40px rgba(255, 69, 0, 0.8));
+  }
+  
+  .floating-synth {
+    bottom: 40%;
+    right: 15%;
+    font-size: 2rem;
+    animation: vaporwaveSynth 6s ease-in-out infinite;
+    filter: drop-shadow(0 0 25px rgba(138, 43, 226, 0.8));
+  }
+  
+  .floating-neon {
+    bottom: 20%;
+    left: 25%;
+    font-size: 3rem;
+    animation: vaporwaveNeon 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 35px rgba(0, 255, 255, 1));
   }
   
   .game-header {
-    @apply text-center mb-6;
-    border: 4px solid #00ff00;
-    background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
-    padding: 20px;
+    @apply text-center mb-8;
+    border: none;
+    background: 
+      linear-gradient(135deg, rgba(255, 0, 255, 0.4) 0%, rgba(0, 255, 255, 0.4) 100%),
+      linear-gradient(45deg, rgba(255, 20, 147, 0.3) 0%, rgba(138, 43, 226, 0.3) 50%, rgba(75, 0, 130, 0.3) 100%),
+      radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    padding: 40px 20px;
     position: relative;
+    border-radius: 30px;
     box-shadow: 
-      inset 0 0 20px rgba(0, 255, 0, 0.2),
-      0 0 30px rgba(0, 255, 0, 0.3);
+      0 0 100px rgba(255, 0, 255, 0.6),
+      0 0 200px rgba(0, 255, 255, 0.4),
+      inset 0 4px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -4px 0 rgba(0, 0, 0, 0.5);
+    transform: perspective(1000px) rotateX(8deg) translateZ(50px);
+    animation: vaporwaveCardDance 12s ease-in-out infinite;
+    overflow: hidden;
   }
   
   .game-header::before {
+    content: '◆ ▲ ◆ ▼ ◆ ▲ ◆ ▼ ◆ ▲ ◆ ▼ ◆ ▲ ◆ ▼ ◆ ▲ ◆ ▼ ◆ ▲ ◆ ▼ ◆';
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5, #ffbe0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 16px;
+    letter-spacing: 4px;
+    animation: vaporwaveBorderRainbow 4s linear infinite;
+    font-weight: 900;
+  }
+  
+  .game-header::after {
     content: '';
     position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, #ff6b00, #ffd700, #00ff00, #00ffff);
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: 
+      radial-gradient(circle at 30% 20%, rgba(255, 0, 255, 0.2) 0%, transparent 40%),
+      radial-gradient(circle at 70% 80%, rgba(0, 255, 255, 0.2) 0%, transparent 40%),
+      radial-gradient(circle at 20% 70%, rgba(255, 20, 147, 0.15) 0%, transparent 40%);
+    animation: vaporwaveFloat 15s ease-in-out infinite;
+    pointer-events: none;
     z-index: -1;
-    border-radius: 4px;
   }
   
   .game-title {
-    @apply text-3xl md:text-5xl font-bold mb-2;
-    font-family: 'Courier New', monospace;
-    color: #00ff00;
+    @apply text-4xl md:text-7xl font-black mb-4;
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5, #ffbe0b, #ff006e);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     text-shadow: 
-      2px 2px 0px #008000,
-      4px 4px 0px #004000,
-      0 0 20px #00ff00;
-    animation: retroPulse 2s ease-in-out infinite;
-    letter-spacing: 2px;
+      0 0 30px rgba(255, 0, 255, 0.8),
+      0 0 60px rgba(0, 255, 255, 0.6),
+      0 0 100px rgba(255, 20, 147, 0.4);
+    animation: vaporwaveBorderRainbow 3s linear infinite;
+    letter-spacing: 4px;
+    transform: perspective(500px) rotateY(-10deg);
+    filter: drop-shadow(0 10px 20px rgba(255, 0, 255, 0.3));
   }
   
   .game-title.float {
-    animation: retroBounce 1s ease-in-out infinite;
+    animation: vaporwaveCardDance 6s ease-in-out infinite, vaporwaveBorderRainbow 3s linear infinite;
+    transform: perspective(500px) rotateY(-10deg) translateY(-10px);
   }
   
   .game-subtitle {
-    @apply text-sm font-bold;
-    color: #ffd700;
-    text-shadow: 1px 1px 0px #b8860b;
-    letter-spacing: 1px;
+    @apply text-lg md:text-xl font-black;
+    background: linear-gradient(90deg, #ff1493, #00ffff, #ff1493);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 
+      0 0 20px rgba(255, 20, 147, 0.8),
+      0 0 40px rgba(0, 255, 255, 0.6);
+    letter-spacing: 3px;
     text-transform: uppercase;
+    animation: vaporwaveBorderRainbow 4s linear infinite;
+    font-family: 'Impact', 'Arial Black', sans-serif;
   }
   
   /* 8-BIT RETRO GAMING UI */
   .game-card {
-    background: linear-gradient(135deg, #2a2a3e, #1e1e32);
-    border: 6px solid;
-    border-image: linear-gradient(45deg, #ffd700, #ff6b00, #ff1744, #ffd700) 1;
+    background: 
+      linear-gradient(135deg, rgba(255, 0, 255, 0.3) 0%, rgba(0, 255, 255, 0.3) 100%),
+      linear-gradient(45deg, rgba(255, 20, 147, 0.4) 0%, rgba(138, 43, 226, 0.4) 50%, rgba(75, 0, 130, 0.4) 100%),
+      rgba(0, 0, 0, 0.6);
+    border: 3px solid transparent;
+    background-clip: padding-box;
+    border-radius: 20px;
     box-shadow: 
-      inset 0 0 10px rgba(255, 215, 0, 0.2),
-      0 0 20px rgba(255, 215, 0, 0.4),
-      8px 8px 0px #444,
-      12px 12px 0px #222;
-    font-family: 'Courier New', monospace;
+      0 0 60px rgba(255, 0, 255, 0.6),
+      0 0 120px rgba(0, 255, 255, 0.4),
+      inset 0 2px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -2px 0 rgba(0, 0, 0, 0.5);
+    font-family: 'Impact', 'Arial Black', sans-serif;
     position: relative;
+    transform: perspective(1000px) rotateX(10deg) rotateY(-5deg);
+    animation: vaporwaveCardDance 8s ease-in-out infinite;
+    overflow: hidden;
   }
   
   .game-card::before {
     content: '';
     position: absolute;
-    top: 10px;
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    border: 2px dashed #00ff00;
-    opacity: 0.3;
-    pointer-events: none;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(
+      45deg,
+      #ff006e 0%,
+      #8338ec 12.5%,
+      #3a86ff 25%,
+      #06ffa5 37.5%,
+      #ffbe0b 50%,
+      #ff006e 62.5%,
+      #8338ec 75%,
+      #3a86ff 87.5%,
+      #06ffa5 100%
+    );
+    border-radius: inherit;
+    z-index: -1;
+    animation: vaporwaveBorderRainbow 3s linear infinite;
+  }
+  
+  .game-card::after {
+    content: '🌟✨🌟';
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    font-size: 1.5rem;
+    animation: vaporwaveSparkleRave 1.5s ease-in-out infinite;
+    z-index: 10;
   }
   
   .glass-effect {
@@ -259,36 +512,58 @@
   }
   
   .game-button {
-    background: linear-gradient(145deg, #ff6b00, #ff8f00);
+    background: 
+      linear-gradient(135deg, #ff006e 0%, #8338ec 50%, #3a86ff 100%),
+      linear-gradient(45deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
     color: white !important;
     font-weight: 900;
-    font-family: 'Courier New', monospace;
-    border: 4px solid #ffd700;
-    text-shadow: 2px 2px 0px #b8860b;
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    text-shadow: 
+      0 0 10px rgba(255, 0, 255, 0.8),
+      2px 2px 0px rgba(0, 0, 0, 0.8);
     box-shadow: 
-      inset 0 0 10px rgba(255, 215, 0, 0.3),
-      4px 4px 0px #cc5500,
-      8px 8px 0px #222;
-    transition: all 0.2s ease;
+      0 0 30px rgba(255, 0, 255, 0.6),
+      0 0 60px rgba(0, 255, 255, 0.4),
+      inset 0 2px 0 rgba(255, 255, 255, 0.3);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    animation: vaporwaveButtonPulse 2s ease-in-out infinite;
+  }
+  
+  .game-button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+    animation: vaporwaveButtonShine 3s ease-in-out infinite;
+    pointer-events: none;
   }
   
   .game-button:hover {
-    transform: translate(-2px, -2px);
+    transform: translateY(-5px) scale(1.05);
     box-shadow: 
-      inset 0 0 15px rgba(255, 215, 0, 0.5),
-      6px 6px 0px #cc5500,
-      10px 10px 0px #222;
-    background: linear-gradient(145deg, #ff8f00, #ffb74d);
+      0 0 50px rgba(255, 0, 255, 0.8),
+      0 0 100px rgba(0, 255, 255, 0.6),
+      0 20px 40px rgba(0, 0, 0, 0.3),
+      inset 0 2px 0 rgba(255, 255, 255, 0.5);
+    animation: vaporwaveButtonRave 0.5s ease-in-out infinite;
   }
   
   .game-button:active {
-    transform: translate(2px, 2px);
+    transform: translateY(-2px) scale(0.98);
     box-shadow: 
-      inset 0 0 10px rgba(255, 215, 0, 0.3),
-      2px 2px 0px #cc5500,
-      4px 4px 0px #222;
+      0 0 30px rgba(255, 0, 255, 0.6),
+      0 0 60px rgba(0, 255, 255, 0.4),
+      0 5px 15px rgba(0, 0, 0, 0.3);
   }
   
   .game-glow:hover {
@@ -305,145 +580,409 @@
     animation: retroSlideUp 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
   
-  /* RETRO ARCADE ANIMATIONS */
-  @keyframes scanlines {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(4px); }
-  }
-  
-  @keyframes retroPulse {
+  /* 🌈 VAPORWAVE SYNTHWAVE MEGA ANIMATIONS 🌈 */
+  @keyframes vaporwaveShift {
     0%, 100% { 
-      text-shadow: 
-        2px 2px 0px #008000,
-        4px 4px 0px #004000,
-        0 0 20px #00ff00;
+      background-position: 0% 50%, 20% 80%, 80% 20%, 40% 40%, 0% 0%, 0% 0%;
+      filter: hue-rotate(0deg) saturate(1);
+    }
+    25% { 
+      background-position: 25% 25%, 40% 60%, 60% 40%, 20% 60%, 25% 25%, 25% 25%;
+      filter: hue-rotate(90deg) saturate(1.2);
     }
     50% { 
-      text-shadow: 
-        2px 2px 0px #008000,
-        4px 4px 0px #004000,
-        0 0 30px #00ff00,
-        0 0 40px #00ff00;
+      background-position: 50% 0%, 60% 40%, 40% 60%, 0% 80%, 50% 50%, 50% 50%;
+      filter: hue-rotate(180deg) saturate(1.4);
+    }
+    75% { 
+      background-position: 75% 75%, 80% 20%, 20% 80%, 80% 20%, 75% 75%, 75% 75%;
+      filter: hue-rotate(270deg) saturate(1.2);
     }
   }
   
-  @keyframes retroBounce {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-5px); }
+  @keyframes vaporwaveGrid {
+    0% { 
+      transform: rotate(0deg) scale(1);
+      opacity: 0.1;
+    }
+    50% { 
+      transform: rotate(180deg) scale(1.2);
+      opacity: 0.3;
+    }
+    100% { 
+      transform: rotate(360deg) scale(1);
+      opacity: 0.1;
+    }
   }
   
-  @keyframes retroSlideUp {
-    from {
-      opacity: 0;
-      transform: translateY(50px) scale(0.8);
+  @keyframes vaporwaveFloat {
+    0%, 100% { 
+      transform: translate(-50%, -50%) rotate(0deg) scale(1);
+      opacity: 0.03;
     }
-    60% {
-      transform: translateY(-10px) scale(1.05);
+    25% { 
+      transform: translate(-48%, -52%) rotate(2deg) scale(1.05);
+      opacity: 0.05;
     }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
+    50% { 
+      transform: translate(-52%, -48%) rotate(-1deg) scale(0.95);
+      opacity: 0.08;
+    }
+    75% { 
+      transform: translate(-50%, -52%) rotate(1deg) scale(1.02);
+      opacity: 0.04;
+    }
+  }
+  
+  @keyframes vaporwaveCardDance {
+    0%, 100% { 
+      transform: perspective(1000px) rotateX(10deg) rotateY(-5deg) translateY(0px) scale(1);
+    }
+    25% { 
+      transform: perspective(1000px) rotateX(8deg) rotateY(3deg) translateY(-10px) scale(1.02);
+    }
+    50% { 
+      transform: perspective(1000px) rotateX(12deg) rotateY(-8deg) translateY(5px) scale(0.98);
+    }
+    75% { 
+      transform: perspective(1000px) rotateX(6deg) rotateY(2deg) translateY(-5px) scale(1.01);
+    }
+  }
+  
+  @keyframes vaporwaveBorderRainbow {
+    0% { 
+      background-position: 0% 0%;
+      filter: hue-rotate(0deg) saturate(1.5);
+    }
+    100% { 
+      background-position: 100% 100%;
+      filter: hue-rotate(360deg) saturate(2);
+    }
+  }
+  
+  @keyframes vaporwaveSparkleRave {
+    0%, 100% { 
+      transform: rotate(0deg) scale(1);
+      filter: hue-rotate(0deg);
+    }
+    33% { 
+      transform: rotate(120deg) scale(1.3);
+      filter: hue-rotate(120deg);
+    }
+    66% { 
+      transform: rotate(240deg) scale(0.8);
+      filter: hue-rotate(240deg);
+    }
+  }
+  
+  @keyframes vaporwaveButtonPulse {
+    0%, 100% { 
+      box-shadow: 
+        0 0 30px rgba(255, 0, 255, 0.6),
+        0 0 60px rgba(0, 255, 255, 0.4);
+    }
+    50% { 
+      box-shadow: 
+        0 0 50px rgba(255, 0, 255, 0.8),
+        0 0 100px rgba(0, 255, 255, 0.6),
+        0 0 150px rgba(255, 20, 147, 0.4);
+    }
+  }
+  
+  @keyframes vaporwaveButtonShine {
+    0% { 
+      transform: translateX(-200%) translateY(-200%) rotate(45deg);
+    }
+    50% { 
+      transform: translateX(0%) translateY(0%) rotate(45deg);
+    }
+    100% { 
+      transform: translateX(200%) translateY(200%) rotate(45deg);
+    }
+  }
+  
+  @keyframes vaporwaveButtonRave {
+    0%, 100% { 
+      background: linear-gradient(135deg, #ff006e 0%, #8338ec 50%, #3a86ff 100%);
+    }
+    25% { 
+      background: linear-gradient(135deg, #8338ec 0%, #3a86ff 50%, #06ffa5 100%);
+    }
+    50% { 
+      background: linear-gradient(135deg, #3a86ff 0%, #06ffa5 50%, #ffbe0b 100%);
+    }
+    75% { 
+      background: linear-gradient(135deg, #06ffa5 0%, #ffbe0b 50%, #ff006e 100%);
+    }
+  }
+  
+  @keyframes puppyRun {
+    0% { 
+      left: -100px;
+      transform: scaleX(1) translateY(0px);
+    }
+    45% { 
+      left: calc(50% - 50px);
+      transform: scaleX(1) translateY(-10px);
+    }
+    50% { 
+      left: calc(50% - 50px);
+      transform: scaleX(1) translateY(0px);
+    }
+    55% { 
+      left: calc(50% - 50px);
+      transform: scaleX(-1) translateY(-10px);
+    }
+    100% { 
+      left: calc(100% + 100px);
+      transform: scaleX(-1) translateY(0px);
     }
   }
   
   @keyframes pixelGlow {
     0%, 100% { 
-      box-shadow: 0 0 5px #00ff00;
+      box-shadow: 0 0 20px rgba(255, 0, 255, 0.6);
+      text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
     }
     50% { 
-      box-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00;
+      box-shadow: 0 0 40px rgba(255, 0, 255, 0.8), 0 0 80px rgba(0, 255, 255, 0.6);
+      text-shadow: 0 0 40px rgba(0, 255, 255, 1), 0 0 60px rgba(255, 0, 255, 0.8);
+    }
+  }
+  
+  /* 🌟 FLOATING GEOMETRIC ANIMATION MADNESS 🌟 */
+  @keyframes vaporwaveFloat1 {
+    0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+    33% { transform: translateY(-30px) rotate(120deg) scale(1.2); }
+    66% { transform: translateY(20px) rotate(240deg) scale(0.8); }
+  }
+  
+  @keyframes vaporwaveFloat2 {
+    0%, 100% { transform: translateX(0px) rotate(0deg) scale(1); }
+    50% { transform: translateX(-40px) rotate(180deg) scale(1.3); }
+  }
+  
+  @keyframes vaporwaveFloat3 {
+    0%, 100% { transform: translate(0px, 0px) rotate(0deg) scale(1); }
+    25% { transform: translate(20px, -20px) rotate(90deg) scale(1.1); }
+    50% { transform: translate(-20px, -40px) rotate(180deg) scale(0.9); }
+    75% { transform: translate(-30px, 10px) rotate(270deg) scale(1.2); }
+  }
+  
+  @keyframes vaporwaveFloat4 {
+    0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); opacity: 0.8; }
+    50% { transform: translateY(-50px) rotate(180deg) scale(1.5); opacity: 1; }
+  }
+  
+  @keyframes vaporwaveFloat5 {
+    0%, 100% { transform: translate(0px, 0px) rotate(0deg) scale(1); }
+    20% { transform: translate(15px, -15px) rotate(72deg) scale(1.1); }
+    40% { transform: translate(-10px, -25px) rotate(144deg) scale(0.9); }
+    60% { transform: translate(-20px, 10px) rotate(216deg) scale(1.3); }
+    80% { transform: translate(10px, 20px) rotate(288deg) scale(0.8); }
+  }
+  
+  @keyframes vaporwaveFloat6 {
+    0%, 100% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg); }
+    33% { transform: rotate(120deg) scale(1.2); filter: hue-rotate(120deg); }
+    66% { transform: rotate(240deg) scale(0.8); filter: hue-rotate(240deg); }
+  }
+  
+  @keyframes vaporwaveFloat7 {
+    0%, 100% { transform: translateX(0px) rotate(0deg) scale(1); }
+    25% { transform: translateX(-25px) rotate(90deg) scale(1.4); }
+    50% { transform: translateX(25px) rotate(180deg) scale(0.7); }
+    75% { transform: translateX(-15px) rotate(270deg) scale(1.1); }
+  }
+  
+  @keyframes vaporwaveFloat8 {
+    0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+    50% { transform: translateY(-35px) rotate(360deg) scale(1.6); }
+  }
+  
+  @keyframes vaporwaveFloat9 {
+    0%, 100% { transform: translate(0px, 0px) rotate(0deg) scale(1); }
+    16% { transform: translate(12px, -8px) rotate(60deg) scale(1.05); }
+    32% { transform: translate(-8px, -16px) rotate(120deg) scale(0.95); }
+    48% { transform: translate(-16px, 8px) rotate(180deg) scale(1.15); }
+    64% { transform: translate(8px, 16px) rotate(240deg) scale(0.85); }
+    80% { transform: translate(16px, -12px) rotate(300deg) scale(1.25); }
+  }
+  
+  @keyframes vaporwaveFloat10 {
+    0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.9; }
+    50% { transform: rotate(180deg) scale(1.8); opacity: 1; }
+  }
+  
+  @keyframes vaporwavePalmSway {
+    0%, 100% { transform: rotate(-5deg) scale(1); }
+    25% { transform: rotate(5deg) scale(1.1); }
+    50% { transform: rotate(-3deg) scale(0.9); }
+    75% { transform: rotate(8deg) scale(1.2); }
+  }
+  
+  @keyframes vaporwaveSunset {
+    0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg); }
+    100% { transform: rotate(360deg) scale(1); filter: hue-rotate(360deg); }
+  }
+  
+  @keyframes vaporwaveSynth {
+    0%, 100% { transform: translateY(0px) scale(1); filter: brightness(1); }
+    50% { transform: translateY(-20px) scale(1.3); filter: brightness(1.5); }
+  }
+  
+  @keyframes vaporwaveNeon {
+    0%, 100% { 
+      transform: scale(1);
+      filter: brightness(1) drop-shadow(0 0 35px rgba(0, 255, 255, 1));
+    }
+    50% { 
+      transform: scale(1.5);
+      filter: brightness(2) drop-shadow(0 0 70px rgba(0, 255, 255, 1));
     }
   }
 }
 
-/* 8-BIT RETRO TEXT STYLING */
+/* 🌈 VAPORWAVE SYNTHWAVE TEXT STYLING 🌈 */
 @layer utilities {
-  /* RETRO GREEN TERMINAL TEXT */
+  /* NEON GLOWING TEXT */
   .game-container .text-muted-foreground {
-    color: #00ff00 !important;
-    font-family: 'Courier New', monospace !important;
-    text-shadow: 1px 1px 0px #008000 !important;
+    color: #ff00ff !important;
+    font-family: 'Impact', 'Arial Black', sans-serif !important;
+    text-shadow: 
+      0 0 10px rgba(255, 0, 255, 0.8),
+      0 0 20px rgba(255, 0, 255, 0.6),
+      0 0 30px rgba(255, 0, 255, 0.4) !important;
+    animation: pixelGlow 2s ease-in-out infinite !important;
   }
   
   .game-container .text-foreground {
-    color: #ffd700 !important;
-    font-family: 'Courier New', monospace !important;
-    text-shadow: 1px 1px 0px #b8860b !important;
-    font-weight: 700 !important;
+    color: #00ffff !important;
+    font-family: 'Impact', 'Arial Black', sans-serif !important;
+    text-shadow: 
+      0 0 10px rgba(0, 255, 255, 0.8),
+      0 0 20px rgba(0, 255, 255, 0.6),
+      0 0 30px rgba(0, 255, 255, 0.4) !important;
+    font-weight: 900 !important;
+    animation: pixelGlow 2.5s ease-in-out infinite !important;
   }
   
-  /* ARCADE CARD TEXT */
+  /* AESTHETIC CARD TEXT */
   .game-card h2, .game-card h3, .game-card h4 {
-    color: #ffd700 !important;
-    font-family: 'Courier New', monospace !important;
-    text-shadow: 2px 2px 0px #b8860b !important;
+    background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5);
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    font-family: 'Impact', 'Arial Black', sans-serif !important;
+    text-shadow: 
+      0 0 20px rgba(255, 0, 255, 0.6),
+      0 0 40px rgba(0, 255, 255, 0.4) !important;
     text-transform: uppercase !important;
-    letter-spacing: 1px !important;
+    letter-spacing: 3px !important;
+    animation: vaporwaveBorderRainbow 4s linear infinite !important;
   }
   
   .game-card p, .game-card span, .game-card label {
-    color: #00ff00 !important;
-    font-family: 'Courier New', monospace !important;
-    text-shadow: 1px 1px 0px #008000 !important;
+    color: #ff1493 !important;
+    font-family: 'Impact', 'Arial Black', sans-serif !important;
+    text-shadow: 
+      0 0 10px rgba(255, 20, 147, 0.8),
+      0 0 20px rgba(255, 20, 147, 0.4) !important;
+    font-weight: 600 !important;
   }
   
   .game-card .text-muted-foreground {
     color: #00ffff !important;
-    text-shadow: 1px 1px 0px #008b8b !important;
+    text-shadow: 
+      0 0 10px rgba(0, 255, 255, 0.8),
+      0 0 20px rgba(0, 255, 255, 0.4) !important;
+    animation: pixelGlow 3s ease-in-out infinite !important;
   }
   
   .game-card .text-sm {
-    color: #ff6b00 !important;
-    text-shadow: 1px 1px 0px #cc5500 !important;
-    font-weight: bold !important;
-  }
-  
-  /* RETRO STATUS INDICATORS */
-  .game-container [data-status="waiting"] {
-    color: #00ff00 !important;
+    color: #ffbe0b !important;
     text-shadow: 
-      1px 1px 0px #008000,
-      0 0 10px #00ff00 !important;
-    animation: pixelGlow 1.5s ease-in-out infinite !important;
-    font-weight: bold !important;
+      0 0 10px rgba(255, 190, 11, 0.8),
+      0 0 20px rgba(255, 190, 11, 0.4) !important;
+    font-weight: 900 !important;
+    animation: vaporwaveSparkleRave 2s ease-in-out infinite !important;
   }
   
-  /* RETRO INPUT FIELDS */
+  /* NEON STATUS INDICATORS */
+  .game-container [data-status="waiting"] {
+    background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff);
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    text-shadow: 
+      0 0 20px rgba(255, 0, 255, 0.8),
+      0 0 40px rgba(0, 255, 255, 0.6) !important;
+    animation: vaporwaveBorderRainbow 2s linear infinite !important;
+    font-weight: 900 !important;
+  }
+  
+  /* AESTHETIC INPUT FIELDS */
   .game-container input, .game-container textarea {
-    background: #1a1a2e !important;
-    border: 4px solid #00ff00 !important;
-    color: #ffd700 !important;
-    font-family: 'Courier New', monospace !important;
-    text-shadow: 1px 1px 0px #b8860b !important;
-    font-weight: bold !important;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7) !important;
+    background: 
+      linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(0, 255, 255, 0.1)),
+      rgba(0, 0, 0, 0.8) !important;
+    border: 2px solid transparent !important;
+    background-clip: padding-box !important;
+    color: #00ffff !important;
+    font-family: 'Impact', 'Arial Black', sans-serif !important;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8) !important;
+    font-weight: 700 !important;
+    box-shadow: 
+      0 0 30px rgba(255, 0, 255, 0.4),
+      inset 0 0 20px rgba(0, 0, 0, 0.8) !important;
+    border-radius: 10px !important;
+  }
+  
+  .game-container input::before, .game-container textarea::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5);
+    border-radius: inherit;
+    z-index: -1;
+    animation: vaporwaveBorderRainbow 3s linear infinite;
   }
   
   .game-container input::placeholder, .game-container textarea::placeholder {
-    color: #00ffff !important;
+    color: #ff1493 !important;
     opacity: 0.8 !important;
-    font-family: 'Courier New', monospace !important;
+    font-family: 'Impact', 'Arial Black', sans-serif !important;
+    text-shadow: 0 0 10px rgba(255, 20, 147, 0.6) !important;
   }
   
   .game-container input:focus, .game-container textarea:focus {
-    border-color: #ffd700 !important;
     box-shadow: 
-      inset 0 0 10px rgba(0, 0, 0, 0.7),
-      0 0 20px rgba(255, 215, 0, 0.6) !important;
-    background: #252544 !important;
+      0 0 50px rgba(255, 0, 255, 0.8),
+      0 0 100px rgba(0, 255, 255, 0.6),
+      inset 0 0 20px rgba(0, 0, 0, 0.8) !important;
+    background: 
+      linear-gradient(135deg, rgba(255, 0, 255, 0.2), rgba(0, 255, 255, 0.2)),
+      rgba(0, 0, 0, 0.9) !important;
+    animation: pixelGlow 1s ease-in-out infinite !important;
   }
   
-  /* RETRO PROGRESS BARS */
+  /* VAPORWAVE PROGRESS BARS */
   .game-container .bg-blue-600 {
-    background: linear-gradient(90deg, #00ff00, #ffd700) !important;
+    background: linear-gradient(90deg, #ff006e, #8338ec, #3a86ff, #06ffa5) !important;
+    animation: vaporwaveBorderRainbow 2s linear infinite !important;
   }
   
-  /* RETRO BADGES */
+  /* AESTHETIC BADGES */
   .game-container .bg-green-500 {
-    background: #00ff00 !important;
-    color: #000 !important;
+    background: linear-gradient(45deg, #ff006e, #8338ec) !important;
+    color: white !important;
     font-weight: 900 !important;
-    text-shadow: none !important;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8) !important;
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.6) !important;
+    animation: vaporwaveButtonPulse 2s ease-in-out infinite !important;
   }
 }
 

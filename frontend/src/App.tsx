@@ -165,6 +165,27 @@ function App() {
         <main className="max-w-4xl mx-auto">
           {renderGamePhase()}
         </main>
+        
+        {/* 🐕 CYBER PUPPY MAGIC 🐕 */}
+        <div className="cyber-puppy">🐕</div>
+        
+        {/* 🌟 FLOATING VAPORWAVE GEOMETRIC MADNESS 🌟 */}
+        <div className="vaporwave-geometry">
+          <div className="floating-shape triangle-1">▲</div>
+          <div className="floating-shape diamond-1">◆</div>
+          <div className="floating-shape circle-1">●</div>
+          <div className="floating-shape triangle-2">▼</div>
+          <div className="floating-shape diamond-2">◇</div>
+          <div className="floating-shape square-1">■</div>
+          <div className="floating-shape star-1">✦</div>
+          <div className="floating-shape triangle-3">▲</div>
+          <div className="floating-shape circle-2">○</div>
+          <div className="floating-shape diamond-3">◆</div>
+          <div className="floating-palm">🌴</div>
+          <div className="floating-sunset">🌅</div>
+          <div className="floating-synth">🎹</div>
+          <div className="floating-neon">⚡</div>
+        </div>
       </div>
       
       <Toaster 
