@@ -37,7 +37,7 @@ services:
         condition: service_healthy
     environment:
       - NODE_ENV=production
-      - API_BASE_URL=http://backend:3001/api
+      - API_BASE_URL=http://localhost:3001/api
     profiles:
       - prod
     restart: unless-stopped
