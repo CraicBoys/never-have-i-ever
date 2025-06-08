@@ -1,0 +1,90 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: bun-react-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - DATA_DIR=/app/data
+      - SERVICE_NAME=Book Library API
+      - CORS_ORIGINS=*
+    volumes:
+      # Mount for data persistence (books.json)
+      - backend_data:/app/data
+    healthcheck:
+      test: ["CMD", "bun", "-e", "fetch('http://localhost:' + (process.env.PORT || 3001) + '/api/health').then(r=>r.json()).then(()=>process.exit(0)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    profiles:
+      - prod
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: bun-react-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=production
+      - API_BASE_URL=http://backend:3001/api
+    profiles:
+      - prod
+    restart: unless-stopped
+
+  # Development services
+  backend-dev:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: bun-react-backend-dev
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - DATA_DIR=/app/data
+      - SERVICE_NAME=Book Library API
+      - CORS_ORIGINS=*
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - backend_data_dev:/app/data
+    profiles:
+      - dev
+    restart: unless-stopped
+
+  frontend-dev:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: bun-react-frontend-dev
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend-dev
+    environment:
+      - NODE_ENV=development
+      - API_BASE_URL=http://backend-dev:3001/api
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    profiles:
+      - dev
+    restart: unless-stopped
+
+volumes:
+  backend_data:
+    driver: local
+  backend_data_dev:
+    driver: local 

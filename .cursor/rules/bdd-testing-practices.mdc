@@ -1,0 +1,100 @@
+---
+description: 
+globs: *.spec.ts,*.spec.tsx,*.test.ts,*.test.tsx
+alwaysApply: false
+---
+# BDD Testing Practices
+
+## Overview
+When modifying `*.spec.ts` or `*.test.ts` files, strictly adhere to Behavior-Driven Development (BDD) principles with clear Gherkin syntax.
+
+## Guidelines
+
+### 1. Structure Tests with Gherkin Syntax
+All test scenarios must be written using clear Gherkin syntax that encapsulates the behavior being tested:
+
+```typescript
+describe('Feature: User Authentication', () => {
+  describe('Scenario: User logs in with valid credentials', () => {
+    it('Given the user is on the login page', () => {
+      // Given setup code
+    });
+    
+    it('When the user enters valid credentials and clicks login', () => {
+      // When action code
+    });
+    
+    it('Then the user should be redirected to the dashboard', () => {
+      // Then assertion code
+    });
+  });
+});
+```
+
+### 2. Use Descriptive Scenario Names
+- Each `describe` block should represent a Feature or Scenario
+- Use natural language that describes the business behavior
+- Follow the pattern: "Given [context], When [action], Then [outcome]"
+
+### 3. Handle Non-Existent Behavior
+When behavior doesn't yet exist, still write the scenarios but mark them as todos:
+
+```typescript
+describe('Feature: Password Reset', () => {
+  describe('Scenario: User requests password reset', () => {
+    it.todo('Given the user is on the forgot password page');
+    it.todo('When the user enters their email and clicks reset');
+    it.todo('Then the user should receive a password reset email');
+  });
+});
+```
+
+### 4. Organize Test Structure
+- Group related scenarios under feature descriptions
+- Use nested `describe` blocks for features and scenarios
+- Keep individual `it` blocks focused on single assertions
+- Use `beforeEach` and `afterEach` for common setup/teardown
+
+### 5. Clear Test Descriptions
+- Test descriptions should read like specifications
+- Avoid technical jargon in favor of business language
+- Each test should be understandable by non-technical stakeholders
+
+### 6. Example Structure
+```typescript
+describe('Feature: Shopping Cart Management', () => {
+  describe('Scenario: Adding items to cart', () => {
+    beforeEach(() => {
+      // Common setup for this scenario
+    });
+
+    it('Given the user is viewing a product page', () => {
+      // Setup product page state
+    });
+
+    it('When the user clicks the "Add to Cart" button', () => {
+      // Perform the action
+    });
+
+    it('Then the item should appear in the shopping cart', () => {
+      // Verify the outcome
+    });
+
+    it('And the cart count should increment by 1', () => {
+      // Additional verification
+    });
+  });
+
+  describe('Scenario: Removing items from cart', () => {
+    it.todo('Given the user has items in their cart');
+    it.todo('When the user clicks remove on an item');
+    it.todo('Then the item should be removed from the cart');
+  });
+});
+```
+
+## Benefits
+- Tests serve as living documentation
+- Clear communication between developers and stakeholders
+- Easy identification of missing functionality through todos
+- Behavior-focused rather than implementation-focused testing

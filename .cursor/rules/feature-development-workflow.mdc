@@ -1,0 +1,247 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Feature Development Workflow
+
+## Overview
+When creating new features, follow this structured documentation and progress tracking workflow to maintain clear project visibility and organization.
+
+## Core Documentation Files
+
+### 1. Product Requirements Document (PRD)
+For each feature, create: `PRD_{featureName}.md`
+
+**Structure:**
+```markdown
+# 📋 PRD: {Feature Name}
+
+## 🎯 Objective
+Brief description of what the feature aims to achieve
+
+## 👥 Target Users
+Who will use this feature
+
+## ✨ Key Features
+- Feature point 1
+- Feature point 2
+- Feature point 3
+
+## 🔄 User Stories
+- As a [user type], I want [goal] so that [benefit]
+
+## 📊 Success Metrics
+How we'll measure success
+
+## 🚫 Out of Scope
+What this feature will NOT include
+
+## 📅 Timeline
+Expected delivery dates and milestones
+```
+
+### 2. Technical Requirements Document (TRD)
+For each feature, create: `TRD_{featureName}.md`
+
+**Structure:**
+```markdown
+# ⚙️ TRD: {Feature Name}
+
+## 🏗️ Architecture Overview
+High-level technical approach
+
+## 🔧 Technical Requirements
+### Frontend
+- Technology stack requirements
+- Component structure
+
+### Backend
+- API endpoints needed
+- Database changes
+
+### Integration
+- Third-party services
+- Internal system connections
+
+## 📁 File Structure
+```
+src/
+├── components/{feature}/
+├── hooks/{feature}/
+├── services/{feature}/
+└── types/{feature}/
+```
+
+## 🔒 Security Considerations
+Authentication, authorization, data protection
+
+## 🧪 Testing Strategy
+Unit tests, integration tests, e2e tests
+
+## 📦 Dependencies
+New packages or libraries needed
+
+## 🚀 Deployment Notes
+Special deployment considerations
+```
+
+### 3. Progress Tracking
+For each feature, create: `PROGRESS_{featureName}.md`
+
+**Structure:**
+```markdown
+# 📈 Progress: {Feature Name}
+
+## 📋 Development Checklist
+
+### 📝 Planning
+- ✅ PRD Created
+- ✅ TRD Created  
+- 🔄 Design mockups
+- ❌ Stakeholder approval
+
+### 💻 Development
+- ❌ Frontend components
+- ❌ Backend APIs
+- ❌ Database migrations
+- ❌ Integration tests
+
+### 🧪 Testing
+- ❌ Unit tests written
+- ❌ Integration tests
+- ❌ Manual testing
+- ❌ QA approval
+
+### 🚀 Deployment
+- ❌ Staging deployment
+- ❌ Production deployment
+- ❌ Monitoring setup
+- ❌ Documentation updated
+
+## 🐛 Known Issues
+List any blockers or issues
+
+## 📝 Notes
+Development notes and decisions
+
+## 📅 Timeline Updates
+Track any timeline changes
+```
+
+## Primary Project Tracking
+
+### PROJECT_PROGRESS.md
+Maintain a master progress file: `PROJECT_PROGRESS.md`
+
+**Structure:**
+```markdown
+# 🚀 Project Progress Dashboard
+
+## 🎯 Active Features
+| Feature | Status | Progress | Last Updated |
+|---------|--------|----------|--------------|
+| User Auth | 🔄 In Progress | 60% | 2024-01-15 |
+| Dashboard | ✅ Complete | 100% | 2024-01-10 |
+| Reports | ❌ Not Started | 0% | - |
+
+## 📊 Overall Progress
+- ✅ **Completed Features:** 3
+- 🔄 **In Progress:** 2  
+- ❌ **Pending:** 5
+- 📈 **Total Progress:** 35%
+
+## 🔗 Quick Links
+- [📋 All PRDs](mdc:docs/prds)
+- [⚙️ All TRDs](mdc:docs/trds)
+- [📈 All Progress](mdc:docs/progress)
+
+## 📅 Recent Updates
+- 2024-01-15: User authentication backend completed
+- 2024-01-14: Dashboard UI refinements
+- 2024-01-13: Started user profile feature
+
+## 🎯 Next Sprint Goals
+- [ ] Complete user authentication
+- [ ] Begin dashboard analytics
+- [ ] Setup monitoring infrastructure
+```
+
+## Local Context Documentation
+
+### readme.ai.md Files
+Create `readme.ai.md` files in relevant directories to store contextual information:
+
+**Example for `/src/components/auth/readme.ai.md`:**
+```markdown
+# 🔐 Authentication Components
+
+## 📍 Context
+This directory contains all authentication-related components for the user login/signup flow.
+
+## 🧩 Components
+- `LoginForm.tsx` - Main login interface
+- `SignupForm.tsx` - User registration
+- `AuthProvider.tsx` - Authentication context
+
+## 🔗 Related Files
+- [Auth Service](mdc:../services/auth.ts)
+- [Auth Types](mdc:../types/auth.d.ts)
+- [Auth Progress](mdc:../../../docs/progress/PROGRESS_userAuth.md)
+
+## 💡 Key Decisions
+- Using JWT for session management
+- Form validation with Zod
+- Error handling with React Query
+
+## 🚨 Important Notes
+- Remember to update auth context when adding new auth methods
+- All forms use the shared validation schema
+```
+
+## Workflow Guidelines
+
+### 1. Feature Initiation
+When starting a new feature:
+1. Create PRD_{featureName}.md
+2. Create TRD_{featureName}.md  
+3. Create PROGRESS_{featureName}.md
+4. Update PROJECT_PROGRESS.md with new feature entry
+5. Create relevant readme.ai.md files for new directories
+
+### 2. During Development
+- Update PROGRESS_{featureName}.md regularly
+- Use emoji status indicators:
+  - ✅ Completed
+  - 🔄 In Progress  
+  - ❌ Not Started
+  - ⚠️ Blocked
+  - 🔍 Under Review
+
+### 3. Feature Completion
+When a feature feels complete, the AI should prompt:
+
+**"🎉 This feature appears to be complete! Would you like me to update the progress files to reflect the current implementation status? I can:**
+- **✅ Mark completed items in PROGRESS_{featureName}.md**
+- **📊 Update PROJECT_PROGRESS.md dashboard** 
+- **📝 Add completion notes and metrics**
+- **🔗 Update any related readme.ai.md files**
+
+**Should I proceed with updating the progress documentation?"**
+
+## Status Emoji Legend
+- ✅ **Complete** - Fully implemented and tested
+- 🔄 **In Progress** - Currently being worked on
+- ❌ **Not Started** - Not yet begun
+- ⚠️ **Blocked** - Waiting on dependencies
+- 🔍 **Under Review** - Pending review/approval
+- 🐛 **Has Issues** - Known problems to address
+- 📋 **Planned** - Scheduled for future sprint
+
+## Benefits
+- 📊 Clear project visibility
+- 📝 Comprehensive documentation
+- 🎯 Structured feature development
+- 🔄 Easy progress tracking
+- 🤝 Better team communication
+- 📈 Historical project insights

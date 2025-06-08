@@ -1,0 +1,22 @@
+# Development Dockerfile for frontend
+FROM oven/bun:1
+
+WORKDIR /app
+
+# Copy package.json and bun.lock first for better caching
+COPY package.json bun.lock* ./
+
+# Install dependencies
+RUN bun install
+
+# Copy source code
+COPY . .
+
+# Expose the port
+EXPOSE 3000
+
+# Set the user to bun
+USER bun
+
+# Run the development server with hot reload
+CMD ["bun", "run", "dev"] 

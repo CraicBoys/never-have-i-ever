@@ -1,0 +1,39 @@
+---
+description: Used when modifying and editing frontend components, or mentioning shadcn
+globs: 
+alwaysApply: false
+---
+# ShadCN Component Usage with Bun
+
+## Overview
+- All ShadCN components must be added via the [ShadCN CLI](mdc:https:/ui.shadcn.com/docs/cli).
+- **Ensure you are in the `frontend` directory of the project before running any Shadcn CLI commands.** This is where the `components.json` file is located.
+- Use `bunx shadcn@latest add <component>` to add new components.
+- Before adding a new component, always check the existing set in `frontend/src/components/ui/` to avoid duplicates.
+- If the required component is not present, consult the [official ShadCN documentation](mdc:https:/ui.shadcn.com/docs/components) for a full list of available components.
+- Only add components that are compatible with the current layout and design system. Do not make configuration changes (e.g., to Tailwind, aliases, or theming) unless strictly necessary. If a configuration change is required, prompt the user for confirmation before proceeding.
+
+## Step-by-step Guide
+1.  **Navigate to the Frontend Directory:**
+    *   Open your terminal and change to the `frontend` directory: `cd path/to/your/project/frontend`
+2.  **Check Existing Components:**
+    *   Review `frontend/src/components/ui/` for the component you need.
+3.  **Explore Available Components:**
+    *   If not found, browse the [ShadCN components list](mdc:https:/ui.shadcn.com/docs/components) to confirm availability.
+4.  **Add via CLI:**
+    *   Use the CLI with `bunx`: `bunx shadcn@latest add <component>`
+    *   Example: `bunx shadcn@latest add accordion`
+    *   The command will prompt you if `components.json` is missing and guide you through its creation if necessary (though it should already exist in this project).
+5.  **Compatibility:**
+    *   Ensure the new component fits the current layout and style. If unsure, review the usage in the documentation and compare with your codebase.
+6.  **Configuration Changes:**
+    *   Do not alter project configuration unless absolutely required. If a change is needed (e.g., updating Tailwind config), always ask the user for approval first.
+
+## References
+- [ShadCN Components Documentation](mdc:https:/ui.shadcn.com/docs/components)
+- [ShadCN CLI](mdc:https:/ui.shadcn.com/docs/cli)
+- [Awesome ShadCN UI List](mdc:https:/github.com/birobirobiro/awesome-shadcn-ui)
+
+---
+
+This rule ensures consistent, maintainable, and layout-compatible use of ShadCN components in your Bun-powered project, run from the correct `frontend` directory.

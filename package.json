@@ -1,0 +1,52 @@
+{
+  "name": "bun-react-template",
+  "version": "1.0.0",
+  "description": "A full-stack Bun + React template with separate frontend and backend applications",
+  "scripts": {
+    "dev": "concurrently \"bun run dev:backend\" \"bun run dev:frontend\"",
+    "dev:backend": "cd backend && bun index.ts",
+    "dev:frontend": "cd frontend && bun run dev",
+    "build": "bun run build:backend && bun run build:frontend",
+    "build:backend": "cd backend && bun build index.ts --outdir dist",
+    "build:frontend": "cd frontend && bun run build",
+    "start": "bun run start:backend",
+    "start:backend": "cd backend && bun index.ts",
+    "start:frontend": "cd frontend && bun run start",
+    "install:all": "bun install && cd backend && bun install && cd ../frontend && bun install",
+    "clean": "rm -rf backend/dist frontend/dist backend/node_modules frontend/node_modules node_modules",
+    "eject:example": "node scripts/eject-example.js",
+    "docker:build": "docker-compose --profile prod build",
+    "docker:up": "docker-compose --profile prod up",
+    "docker:up:build": "docker-compose --profile prod up --build",
+    "docker:down": "docker-compose down",
+    "docker:dev": "docker-compose --profile dev up",
+    "docker:dev:build": "docker-compose --profile dev up --build",
+    "docker:logs": "docker-compose logs -f",
+    "docker:clean": "docker-compose down -v --rmi all"
+  },
+  "keywords": [
+    "bun",
+    "react",
+    "typescript",
+    "fullstack",
+    "template",
+    "crud",
+    "api"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/bun-react-template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/bun-react-template/issues"
+  },
+  "homepage": "https://github.com/yourusername/bun-react-template#readme"
+}
