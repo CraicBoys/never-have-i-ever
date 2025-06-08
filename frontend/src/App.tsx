@@ -72,6 +72,67 @@ function GuessStatementWrapper({
 
 function App() {
   const [playerName, setPlayerName] = useState('');
+  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
+  
+  // 🎵 CHIPTUNE CHAOS GENERATOR 🎵
+  useEffect(() => {
+    const initAudio = async () => {
+      try {
+        const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+        setAudioContext(ctx);
+        
+        // Create insane chiptune sounds
+        const createChiptuneChaos = () => {
+          const oscillator = ctx.createOscillator();
+          const gainNode = ctx.createGain();
+          
+          oscillator.connect(gainNode);
+          gainNode.connect(ctx.destination);
+          
+          // Random frequency chaos
+          const frequencies = [220, 440, 880, 1760, 110, 55];
+          oscillator.frequency.setValueAtTime(
+            frequencies[Math.floor(Math.random() * frequencies.length)], 
+            ctx.currentTime
+          );
+          
+          // Random wave types
+          const waveTypes: OscillatorType[] = ['square', 'sawtooth', 'triangle'];
+          oscillator.type = waveTypes[Math.floor(Math.random() * waveTypes.length)];
+          
+          // Volume chaos
+          gainNode.gain.setValueAtTime(0, ctx.currentTime);
+          gainNode.gain.linearRampToValueAtTime(0.1, ctx.currentTime + 0.01);
+          gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+          
+          oscillator.start(ctx.currentTime);
+          oscillator.stop(ctx.currentTime + 0.2);
+        };
+        
+        // Play random chiptune chaos every 3-8 seconds
+        const playChiptuneChaos = () => {
+          if (Math.random() > 0.3) { // 70% chance to play
+            createChiptuneChaos();
+          }
+          setTimeout(playChiptuneChaos, Math.random() * 5000 + 3000);
+        };
+        
+        // Start the chaos after user interaction
+        document.addEventListener('click', () => {
+          if (ctx.state === 'suspended') {
+            ctx.resume();
+          }
+          playChiptuneChaos();
+        }, { once: true });
+        
+      } catch (error) {
+        console.log('Audio chaos failed:', error);
+      }
+    };
+    
+    initAudio();
+  }, []);
+
   const {
     gameState,
     currentPlayer,
@@ -156,15 +217,138 @@ function App() {
 
   return (
     <div className="dark">
+      {/* 🎵 CHIPTUNE CHAOS VISUAL INDICATOR 🎵 */}
+      <div className="audio-chaos-indicator">
+        <div className="sound-wave wave-1"></div>
+        <div className="sound-wave wave-2"></div>
+        <div className="sound-wave wave-3"></div>
+        <div className="sound-wave wave-4"></div>
+        <div className="sound-wave wave-5"></div>
+        <span className="audio-text">🎵 CHIPTUNE CHAOS ACTIVE 🎵</span>
+      </div>
+      
+      {/* 🎮 RETRO GAMING OVERLAY INSANITY 🎮 */}
+      <div className="retro-gaming-overlay">
+        <div className="pixel-art-element pixel-1"></div>
+        <div className="pixel-art-element pixel-2"></div>
+        <div className="pixel-art-element pixel-3"></div>
+        <div className="pixel-art-element pixel-4"></div>
+        <div className="pixel-art-element pixel-5"></div>
+        <div className="glitch-scanner"></div>
+        <div className="crt-lines"></div>
+      </div>
+
+      {/* CORPORATE MEMPHIS CHAOS OVERLAY */}
+      <div className="corporate-memphis-overlay">
+        <div className="memphis-blob blob-1"></div>
+        <div className="memphis-blob blob-2"></div>
+        <div className="memphis-blob blob-3"></div>
+        <div className="memphis-shape shape-1"></div>
+        <div className="memphis-shape shape-2"></div>
+        <div className="memphis-shape shape-3"></div>
+        <div className="memphis-shape shape-4"></div>
+        <div className="memphis-shape shape-5"></div>
+        <div className="memphis-shape shape-6"></div>
+      </div>
+
+      {/* IRASUTOYA HORROR SIDEBAR */}
+      <div className="irasutoya-sidebar">
+        <div className="irasutoya-character char-1"></div>
+        <div className="irasutoya-character char-2"></div>
+        <div className="irasutoya-character char-3"></div>
+        <div className="irasutoya-character char-4"></div>
+        <div className="irasutoya-character char-5"></div>
+        <div className="irasutoya-text">
+          <span>がんばって！</span>
+          <span>すごい！</span>
+          <span>やったー！</span>
+          <span>最高！</span>
+          <span>危険！</span>
+        </div>
+        <div className="japanese-particle-system">
+          <div className="particle p-1">✨</div>
+          <div className="particle p-2">🌟</div>
+          <div className="particle p-3">💫</div>
+          <div className="particle p-4">⭐</div>
+          <div className="particle p-5">🎌</div>
+        </div>
+      </div>
+
+      {/* 🌈 VAPORWAVE NIGHTMARE SIDEBAR 🌈 */}
+      <div className="vaporwave-sidebar">
+        <div className="vaporwave-element vw-1"></div>
+        <div className="vaporwave-element vw-2"></div>
+        <div className="vaporwave-element vw-3"></div>
+        <div className="neon-grid"></div>
+        <div className="retro-sun"></div>
+      </div>
+
+      {/* MAIN CONTENT WITH HORRIFIC STRUCTURE */}
       <div className="game-container">
-        <div className="game-header">
-          <h1 className="game-title float">🍺 Never Have I Ever</h1>
-          <p className="game-subtitle">The ultimate party game with a twist!</p>
+        {/* FLOATING CORPORATE ELEMENTS */}
+        <div className="floating-corporate-elements">
+          <div className="corporate-icon icon-1">💼</div>
+          <div className="corporate-icon icon-2">📊</div>
+          <div className="corporate-icon icon-3">🚀</div>
+          <div className="corporate-icon icon-4">💡</div>
+          <div className="corporate-icon icon-5">⭐</div>
+          <div className="corporate-icon icon-6">🎯</div>
+          <div className="corporate-icon icon-7">🔥</div>
+          <div className="corporate-icon icon-8">⚡</div>
+        </div>
+
+        {/* 🎪 CIRCUS OF MADNESS OVERLAY 🎪 */}
+        <div className="circus-madness">
+          <div className="circus-element circus-1"></div>
+          <div className="circus-element circus-2"></div>
+          <div className="circus-element circus-3"></div>
+          <div className="spinning-wheel"></div>
+          <div className="confetti-explosion"></div>
+        </div>
+
+        {/* ASYMMETRIC HEADER DISASTER */}
+        <div className="asymmetric-header">
+          <div className="header-section section-1">
+            <h1 className="game-title chaos-title">🍺 Never Have I Ever</h1>
+            <div className="title-decoration"></div>
+          </div>
+          <div className="header-section section-2">
+            <p className="game-subtitle corporate-subtitle">The ultimate party game with a twist!</p>
+            <div className="subtitle-shape"></div>
+          </div>
+          <div className="header-section section-3">
+            <div className="header-blob"></div>
+          </div>
         </div>
         
-        <main className="max-w-4xl mx-auto">
-          {renderGamePhase()}
-        </main>
+        {/* CONTENT IN CHAOS GRID */}
+        <div className="chaos-grid">
+          <div className="grid-item item-1">
+            <div className="decorative-element element-1"></div>
+          </div>
+          <div className="grid-item item-2 main-content">
+            <main className="content-wrapper">
+              {renderGamePhase()}
+            </main>
+          </div>
+          <div className="grid-item item-3">
+            <div className="decorative-element element-2"></div>
+          </div>
+          <div className="grid-item item-4">
+            <div className="decorative-element element-3"></div>
+          </div>
+          <div className="grid-item item-5">
+            <div className="floating-mascot"></div>
+          </div>
+        </div>
+
+        {/* BOTTOM CHAOS BAR */}
+        <div className="chaos-bottom-bar">
+          <div className="bar-segment segment-1"></div>
+          <div className="bar-segment segment-2"></div>
+          <div className="bar-segment segment-3"></div>
+          <div className="bar-segment segment-4"></div>
+        </div>
         
         {/* 🤖 MATRIX HACKER BOT 🤖 */}
         <div className="matrix-bot">🤖</div>
