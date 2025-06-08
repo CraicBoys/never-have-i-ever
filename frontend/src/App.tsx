@@ -166,25 +166,25 @@ function App() {
           {renderGamePhase()}
         </main>
         
-        {/* 🐕 CYBER PUPPY MAGIC 🐕 */}
-        <div className="cyber-puppy">🐕</div>
+        {/* 🤖 MATRIX HACKER BOT 🤖 */}
+        <div className="matrix-bot">🤖</div>
         
-        {/* 🌟 FLOATING VAPORWAVE GEOMETRIC MADNESS 🌟 */}
-        <div className="vaporwave-geometry">
-          <div className="floating-shape triangle-1">▲</div>
-          <div className="floating-shape diamond-1">◆</div>
-          <div className="floating-shape circle-1">●</div>
-          <div className="floating-shape triangle-2">▼</div>
-          <div className="floating-shape diamond-2">◇</div>
-          <div className="floating-shape square-1">■</div>
-          <div className="floating-shape star-1">✦</div>
-          <div className="floating-shape triangle-3">▲</div>
-          <div className="floating-shape circle-2">○</div>
-          <div className="floating-shape diamond-3">◆</div>
-          <div className="floating-palm">🌴</div>
-          <div className="floating-sunset">🌅</div>
-          <div className="floating-synth">🎹</div>
-          <div className="floating-neon">⚡</div>
+        {/* ⚡ GLITCH MATRIX CHAOS ⚡ */}
+        <div className="matrix-chaos">
+          <div className="glitch-text error-1">[ERROR]</div>
+          <div className="glitch-text warning-1">[WARNING]</div>
+          <div className="glitch-text binary-1">01001000</div>
+          <div className="glitch-text system-1">[SYSTEM]</div>
+          <div className="glitch-text breach-1">[BREACH]</div>
+          <div className="glitch-text access-1">[ACCESS_DENIED]</div>
+          <div className="glitch-text hack-1">[HACKING...]</div>
+          <div className="glitch-text virus-1">[VIRUS_DETECTED]</div>
+          <div className="glitch-text firewall-1">[FIREWALL_DOWN]</div>
+          <div className="glitch-text skull">💀</div>
+          <div className="glitch-text terminal">💻</div>
+          <div className="glitch-text lightning">⚡</div>
+          <div className="glitch-text warning-2">[CORRUPTED]</div>
+          <div className="glitch-text error-2">[FATAL_ERROR]</div>
         </div>
       </div>
       
