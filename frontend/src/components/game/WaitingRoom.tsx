@@ -10,7 +10,7 @@ interface WaitingRoomProps {
   currentPlayer: Player;
   isConnected: boolean;
   canStartGame: boolean;
-  onStartGame: () => void;
+  onStartGame: () => Promise<boolean>;
 }
 
 export function WaitingRoom({ 
@@ -20,9 +20,26 @@ export function WaitingRoom({
   canStartGame, 
   onStartGame 
 }: WaitingRoomProps) {
+  const [isStarting, setIsStarting] = React.useState(false);
+
   const copyRoomCode = () => {
     navigator.clipboard.writeText(gameState.roomCode);
     toast.success('Room code copied to clipboard!');
+  };
+
+  const handleStartGame = async () => {
+    setIsStarting(true);
+    try {
+      const success = await onStartGame();
+      if (!success) {
+        toast.error('Failed to start game');
+      }
+    } catch (error) {
+      toast.error('Failed to start game');
+      console.error('Start game error:', error);
+    } finally {
+      setIsStarting(false);
+    }
   };
 
   const connectedPlayers = gameState.players.filter(p => p.connected);
@@ -132,15 +149,17 @@ export function WaitingRoom({
           <Card className="bg-white/95 backdrop-blur-sm">
             <CardContent className="pt-6">
               <Button
-                onClick={onStartGame}
-                disabled={!canStartGame || !isConnected}
+                onClick={handleStartGame}
+                disabled={!canStartGame || !isConnected || isStarting}
                 className="w-full h-12 text-lg"
                 size="lg"
               >
                 <Play className="w-5 h-5 mr-2" />
-                {playerCount < 2 
-                  ? `Need ${2 - playerCount} more player${2 - playerCount === 1 ? '' : 's'}`
-                  : 'Start Game'
+                {isStarting 
+                  ? 'Starting Game...'
+                  : playerCount < 2 
+                    ? `Need ${2 - playerCount} more player${2 - playerCount === 1 ? '' : 's'}`
+                    : 'Start Game'
                 }
               </Button>
               {playerCount >= 2 && (

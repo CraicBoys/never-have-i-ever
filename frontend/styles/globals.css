@@ -142,3 +142,77 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .game-container {
+    @apply min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-pink-900 p-6;
+  }
+  
+  .game-header {
+    @apply text-center mb-8;
+  }
+  
+  .game-title {
+    @apply text-4xl md:text-6xl font-bold text-white mb-2;
+  }
+  
+  .game-title.float {
+    @apply animate-bounce;
+  }
+  
+  .game-subtitle {
+    @apply text-lg text-purple-200 opacity-90;
+  }
+  
+  /* Game component styling inspired by beautiful setup UI */
+  .game-card {
+    @apply bg-white/95 backdrop-blur-sm border border-white/20;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  
+  .glass-effect {
+    @apply bg-white/90 backdrop-blur-md;
+  }
+  
+  .game-button {
+    @apply bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-none;
+    box-shadow: 0 4px 15px 0 rgba(147, 51, 234, 0.3);
+  }
+  
+  .game-glow:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+  }
+  
+  .slide-up {
+    animation: slideUp 0.6s ease-out;
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Targeted text contrast fixes inspired by beautiful game setup UI */
+@layer utilities {
+  /* Main background text should be light on dark gradient */
+  .game-container .text-muted-foreground {
+    @apply !text-purple-200;
+  }
+  
+  .game-container .text-foreground {
+    @apply !text-white;
+  }
+  
+  /* Status indicators with good contrast */
+  .game-container [data-status="waiting"] {
+    @apply !text-emerald-400;
+  }
+}

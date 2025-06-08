@@ -310,6 +310,125 @@ const server = serve({
       }
     }
 
+    // Get current statement for guessing
+    if (url.pathname.startsWith('/api/games/') && url.pathname.endsWith('/current-statement') && req.method === 'GET') {
+      try {
+        const gameId = url.pathname.split('/')[3];
+        const game = gameService.getGame(gameId);
+        
+        if (!game) {
+          return new Response(JSON.stringify({ error: 'Game not found' }), {
+            status: 404,
+            headers: { 
+              'Content-Type': 'application/json',
+              ...corsHeaders 
+            }
+          });
+        }
+
+        if (game.phase !== GamePhase.GUESSING) {
+          return new Response(JSON.stringify({ error: 'Not in guessing phase' }), {
+            status: 400,
+            headers: { 
+              'Content-Type': 'application/json',
+              ...corsHeaders 
+            }
+          });
+        }
+
+        const currentStatement = gameService.getCurrentStatement(gameId);
+        if (!currentStatement) {
+          return new Response(JSON.stringify({ error: 'No current statement' }), {
+            status: 404,
+            headers: { 
+              'Content-Type': 'application/json',
+              ...corsHeaders 
+            }
+          });
+        }
+
+        // Return statement without author ID to keep it anonymous
+        return new Response(JSON.stringify({
+          statement: {
+            id: currentStatement.id,
+            text: currentStatement.text,
+            voteCount: Object.keys(currentStatement.votes).length
+          }
+        }), {
+          headers: { 
+            'Content-Type': 'application/json',
+            ...corsHeaders 
+          }
+        });
+      } catch (error) {
+        return new Response(JSON.stringify({ error: 'Failed to get current statement' }), {
+          status: 500,
+          headers: { 
+            'Content-Type': 'application/json',
+            ...corsHeaders 
+          }
+        });
+      }
+    }
+
+    // Submit guess
+    if (url.pathname.startsWith('/api/games/') && url.pathname.endsWith('/guess') && req.method === 'POST') {
+      try {
+        const gameId = url.pathname.split('/')[3];
+        const { playerId, statementId, guessedAuthorId } = await req.json();
+        
+        const success = gameService.submitGuess(gameId, playerId, statementId, guessedAuthorId);
+        if (!success) {
+          return new Response(JSON.stringify({ error: 'Failed to submit guess' }), {
+            status: 400,
+            headers: { 
+              'Content-Type': 'application/json',
+              ...corsHeaders 
+            }
+          });
+        }
+
+        const game = gameService.getGame(gameId)!;
+        const currentStatement = gameService.getCurrentStatement(gameId);
+        
+        // Check if all players voted (excluding the author)
+        if (currentStatement) {
+          const playerCount = Object.keys(game.players).length;
+          const voteCount = Object.keys(currentStatement.votes).length;
+          
+          if (voteCount >= playerCount - 1) { // -1 because author doesn't vote
+            // All votes are in, advance to drinking phase
+            gameService.nextStatement(gameId);
+          }
+        }
+
+        const updatedGame = gameService.getGame(gameId)!;
+        return new Response(JSON.stringify({
+          gameState: {
+            roomCode: updatedGame.roomCode,
+            players: Object.values(updatedGame.players),
+            phase: updatedGame.phase,
+            currentStatementIndex: updatedGame.currentStatementIndex,
+            totalStatements: updatedGame.statements.length,
+            canStart: Object.keys(updatedGame.players).length >= updatedGame.minPlayers,
+          }
+        }), {
+          headers: { 
+            'Content-Type': 'application/json',
+            ...corsHeaders 
+          }
+        });
+      } catch (error) {
+        return new Response(JSON.stringify({ error: 'Failed to submit guess' }), {
+          status: 500,
+          headers: { 
+            'Content-Type': 'application/json',
+            ...corsHeaders 
+          }
+        });
+      }
+    }
+
     // 404 for unknown routes
     return new Response(JSON.stringify({ error: 'Not found' }), {
       status: 404,
@@ -330,6 +449,8 @@ console.log('  POST /api/rooms/join - Join room by game ID');
 console.log('  GET  /api/games/:id - Get game state');
 console.log('  POST /api/games/:id/start - Start game');
 console.log('  POST /api/games/:id/statements - Submit statement');
+console.log('  GET  /api/games/:id/current-statement - Get current statement for guessing');
+console.log('  POST /api/games/:id/guess - Submit guess');
 console.log('🏥 Health check: http://localhost:3001/health');
 
 // Cleanup inactive games every 5 minutes

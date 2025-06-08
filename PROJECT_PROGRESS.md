@@ -3,6 +3,50 @@
 ## 🎯 Active Features
 | Feature | Status | Progress | Last Updated |
 |---|-----|----|-----|
+| Never Have I Ever Core | ✅ Complete | 80% | 2024-06-08 |
+| Game UI/UX Enhancement | 🔄 In Progress | 60% | 2024-06-08 |
+
+## 📊 Overall Progress
+- ✅ **Completed Features:** 0
+- 🔄 **In Progress:** 2  
+- ❌ **Pending:** 0
+- 📈 **Total Progress:** 70%
+
+## 🔗 Quick Links
+- [📋 Never Have I Ever PRD](PRD_neverHaveIEver.md)
+- [⚙️ Never Have I Ever TRD](TRD_neverHaveIEver.md)
+- [📈 Never Have I Ever Progress](PROGRESS_neverHaveIEver.md)
+- [📋 Game UI/UX PRD](PRD_gameUIUX.md)
+- [⚙️ Game UI/UX TRD](TRD_gameUIUX.md)
+- [📈 Game UI/UX Progress](PROGRESS_gameUIUX.md)
+
+## 📅 Recent Updates
+- 2024-06-08: **MAJOR UI OVERHAUL** - Replaced WebSockets with HTTP API, implemented beautiful gaming UI
+- 2024-06-08: Added shadcn/ui components, dark gaming theme, enhanced GameLobby
+- 2024-06-08: Fixed infinite WebSocket loops, improved lobby system
+- 2024-06-08: HTTP REST API implemented for better reliability
+
+## 🎯 Next Sprint Goals
+- [ ] Complete WaitingRoom and SubmitStatements UI enhancement
+- [ ] Implement guessing phase gameplay
+- [ ] Add drinking phase and results screen
+- [ ] Mobile optimization and polish
+
+## 🏆 Major Achievements
+- ✅ **Stable Multiplayer Foundation** - HTTP API replacing problematic WebSockets
+- ✅ **Beautiful Gaming UI** - Dark theme, animations, professional design
+- ✅ **Real-time Lobby System** - Auto-refreshing game list, one-click joining
+- ✅ **Complete shadcn/ui Integration** - Modern component library with gaming aesthetics
+
+## 🎮 Current Game State
+- **Backend**: HTTP REST API with game state polling
+- **Frontend**: React + TypeScript + shadcn/ui + gaming theme
+- **Multiplayer**: Room-based with real-time updates via polling
+- **UI**: Dark gaming theme with animations and responsive design
+
+## 🎯 Active Features
+| Feature | Status | Progress | Last Updated |
+|---|-----|----|-----|
 | Never Have I Ever Game | 🔄 In Progress | 80% | 2025-06-08 |
 
 ## 📊 Overall Progress

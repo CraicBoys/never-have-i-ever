@@ -1,89 +1,184 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { useGameState } from './hooks/useGameState';
+import type { GameState, Player } from './types/game';
+import { GamePhase } from './types/game';
 import { GameLobby } from './components/game/GameLobby';
 import { WaitingRoom } from './components/game/WaitingRoom';
+import { GuessStatement } from './components/game/GuessStatement';
 import SubmitStatements from './components/SubmitStatements';
-import { GamePhase } from './types/game';
+
+// Wrapper component for GuessStatement that manages statement fetching
+function GuessStatementWrapper({
+  gameState,
+  currentPlayer,
+  submitGuess,
+  getCurrentStatement
+}: {
+  gameState: GameState;
+  currentPlayer: Player | null;
+  submitGuess: (statementId: string, guessedAuthorId: string) => Promise<boolean>;
+  getCurrentStatement: () => Promise<any>;
+}) {
+  const [currentStatement, setCurrentStatement] = useState<{id: string; text: string; voteCount: number} | null>(null);
+  const [hasSubmittedGuess, setHasSubmittedGuess] = useState(false);
+
+  // Fetch current statement when component mounts or statement index changes
+  useEffect(() => {
+    const fetchStatement = async () => {
+      const statement = await getCurrentStatement();
+      if (statement) {
+        setCurrentStatement(statement);
+        setHasSubmittedGuess(false); // Reset guess status for new statement
+      }
+    };
+    
+    fetchStatement();
+    
+    // Poll for updates every 2 seconds
+    const interval = setInterval(fetchStatement, 2000);
+    return () => clearInterval(interval);
+  }, [getCurrentStatement, gameState.currentStatementIndex]);
+
+  const handleSubmitGuess = useCallback(async (playerId: string) => {
+    if (!currentStatement) return;
+    
+    const success = await submitGuess(currentStatement.id, playerId);
+    if (success) {
+      setHasSubmittedGuess(true);
+    }
+  }, [submitGuess, currentStatement]);
+
+  if (!currentStatement) {
+    return (
+      <div className="max-w-4xl mx-auto p-6 text-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto"></div>
+        <p className="mt-4 text-muted-foreground">Loading statement...</p>
+      </div>
+    );
+  }
+
+  return (
+    <GuessStatement
+      gameState={gameState}
+      currentPlayer={currentPlayer}
+      currentStatement={currentStatement.text}
+      onSubmitGuess={handleSubmitGuess}
+      hasSubmittedGuess={hasSubmittedGuess}
+      voteCount={currentStatement.voteCount}
+    />
+  );
+}
 
 function App() {
+  const [playerName, setPlayerName] = useState('');
   const {
-    isConnected,
-    isConnecting,
     gameState,
     currentPlayer,
+    isConnected,
+    isConnecting,
+    isHost,
     canStartGame,
-    lobbies,
     createRoom,
-    joinRoom,
     joinLobby,
     getLobbies,
-    startGame,
     submitStatement,
+    submitGuess,
+    getCurrentStatement,
+    startGame,
+    lobbies
   } = useGameState();
 
-  // Show lobby if no game state or not connected to a game
-  if (!gameState || !currentPlayer) {
-    return (
-      <>
+  const renderGamePhase = () => {
+    if (!isConnected || !gameState) {
+      return (
         <GameLobby
+          playerName={playerName}
+          onPlayerNameChange={setPlayerName}
           onCreateRoom={createRoom}
           onJoinLobby={joinLobby}
-          onGetLobbies={getLobbies}
+          onRefreshLobbies={getLobbies}
           lobbies={lobbies}
           isConnecting={isConnecting}
         />
-        <Toaster position="top-center" />
-      </>
-    );
-  }
+      );
+    }
 
-  // Show waiting room while waiting for players
-  if (gameState.phase === GamePhase.WAITING) {
-    return (
-      <>
-        <WaitingRoom
-          gameState={gameState}
-          currentPlayer={currentPlayer}
-          isConnected={isConnected}
-          canStartGame={canStartGame}
-          onStartGame={startGame}
-        />
-        <Toaster position="top-center" />
-      </>
-    );
-  }
-
-  // Show statement submission phase
-  if (gameState.phase === GamePhase.SUBMITTING_STATEMENTS) {
-    return (
-      <>
-        <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-600 to-red-600 flex items-center justify-center p-4">
+    switch (gameState.phase) {
+      case GamePhase.WAITING:
+        return (
+          <WaitingRoom
+            gameState={gameState}
+            currentPlayer={currentPlayer}
+            onStartGame={startGame}
+            canStartGame={canStartGame}
+            isConnected={isConnected}
+          />
+        );
+      
+      case GamePhase.SUBMITTING_STATEMENTS:
+        return (
           <SubmitStatements
             players={gameState.players}
-            currentPlayerId={currentPlayer.id}
+            currentPlayerId={currentPlayer?.id || ''}
             onSubmitStatement={submitStatement}
-            isHost={currentPlayer.isHost}
-            onStartNextPhase={() => console.log('Start next phase - to be implemented')}
+            isHost={isHost}
+            onStartNextPhase={() => {
+              // This will be auto-handled by the backend when all statements are submitted
+              console.log('All statements submitted, waiting for backend to advance phase');
+            }}
           />
-        </div>
-        <Toaster position="top-center" />
-      </>
-    );
-  }
+        );
+      
+      case GamePhase.GUESSING:
+        return (
+          <GuessStatementWrapper
+            gameState={gameState}
+            currentPlayer={currentPlayer}
+            submitGuess={submitGuess}
+            getCurrentStatement={getCurrentStatement}
+          />
+        );
+      
+      default:
+        return (
+          <div className="game-container">
+            <div className="game-header">
+              <h1 className="game-title">Coming Soon</h1>
+              <p className="game-subtitle">
+                {gameState.phase} phase will be implemented next!
+              </p>
+            </div>
+          </div>
+        );
+    }
+  };
 
-  // TODO: Add other game phases (guessing, drinking, results)
   return (
-    <>
-      <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-600 to-red-600 flex items-center justify-center p-4">
-        <div className="text-center text-white">
-          <h1 className="text-4xl font-bold mb-4">Game In Progress</h1>
-          <p className="text-lg">Phase: {gameState.phase}</p>
-          <p className="text-sm opacity-75 mt-2">More game phases coming soon...</p>
+    <div className="dark">
+      <div className="game-container">
+        <div className="game-header">
+          <h1 className="game-title float">🍺 Never Have I Ever</h1>
+          <p className="game-subtitle">The ultimate party game with a twist!</p>
         </div>
+        
+        <main className="max-w-4xl mx-auto">
+          {renderGamePhase()}
+        </main>
       </div>
-      <Toaster position="top-center" />
-    </>
+      
+      <Toaster 
+        position="top-center"
+        toastOptions={{
+          className: 'dark',
+          style: {
+            background: 'hsl(var(--card))',
+            color: 'hsl(var(--card-foreground))',
+            border: '1px solid hsl(var(--border))',
+          },
+        }}
+      />
+    </div>
   );
 }
 

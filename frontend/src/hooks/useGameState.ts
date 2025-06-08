@@ -206,11 +206,37 @@ export function useGameState() {
     }
   }, [gameId, playerId, apiCall]);
 
-  // Placeholder functions for future implementation
+  // Submit guess
   const submitGuess = useCallback(async (statementId: string, guessedAuthorId: string) => {
-    toast.success('Guessing phase coming soon!');
-    return false;
-  }, []);
+    if (!gameId || !playerId) return false;
+
+    try {
+      const data = await apiCall(`/games/${gameId}/guess`, {
+        method: 'POST',
+        body: JSON.stringify({ playerId, statementId, guessedAuthorId }),
+      });
+
+      setGameState(data.gameState);
+      toast.success('Guess submitted!');
+      return true;
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Failed to submit guess');
+      return false;
+    }
+  }, [gameId, playerId, apiCall]);
+
+  // Get current statement for guessing
+  const getCurrentStatement = useCallback(async () => {
+    if (!gameId) return null;
+
+    try {
+      const data = await apiCall(`/games/${gameId}/current-statement`);
+      return data.statement;
+    } catch (error) {
+      console.error('Failed to get current statement:', error);
+      return null;
+    }
+  }, [gameId, apiCall]);
 
   const recordDrink = useCallback(async (statementId: string) => {
     toast.success('Drinking phase coming soon!');
@@ -245,6 +271,7 @@ export function useGameState() {
     getLobbies,
     submitStatement,
     submitGuess,
+    getCurrentStatement,
     recordDrink,
     startGame,
   };
