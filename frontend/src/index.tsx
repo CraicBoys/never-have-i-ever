@@ -1,34 +1,21 @@
 import { serve } from "bun";
 import index from "./index.html";
 
+const API_BASE_URL = Bun.env.API_BASE_URL || 'http://localhost:3001/api';
+
 const server = serve({
   hostname: '0.0.0.0', // Bind to all interfaces for Docker compatibility
   port: process.env.PORT || 3000, // Use PORT environment variable or default to 3000
   routes: {
-    // Serve index.html for all unmatched routes.
-    "/*": index,
-
-    "/api/hello": {
-      async GET(req) {
-        return Response.json({
-          message: "Hello, world!",
-          method: "GET",
-        });
-      },
-      async PUT(req) {
-        return Response.json({
-          message: "Hello, world!",
-          method: "PUT",
-        });
-      },
-    },
-
-    "/api/hello/:name": async req => {
-      const name = req.params.name;
+    // Serve the API configuration to the browser
+    "/config.json": async req => {
       return Response.json({
-        message: `Hello, ${name}!`,
+        API_BASE_URL: API_BASE_URL
       });
     },
+
+    // Serve index.html for all unmatched routes.
+    "/*": index,
   },
 
   development: process.env.NODE_ENV !== "production" && {
@@ -41,3 +28,4 @@ const server = serve({
 });
 
 console.log(`🚀 Server running at ${server.url}`);
+console.log(`📡 Browser will make API calls to: ${API_BASE_URL}`);

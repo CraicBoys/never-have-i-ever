@@ -3,7 +3,25 @@ import type { GameState, Player, Statement, GameResults } from '../types/game';
 import { GamePhase } from '../types/game';
 import toast from 'react-hot-toast';
 
-const API_BASE = process.env.API_BASE_URL || 'http://localhost:3001/api';
+// API configuration
+let API_BASE = 'http://localhost:3001/api'; // fallback
+let configLoaded = false;
+
+const initializeApiBase = async () => {
+  try {
+    const response = await fetch('/config.json');
+    const config = await response.json();
+    API_BASE = config.API_BASE_URL;
+    console.log('API Base URL loaded:', API_BASE);
+  } catch (error) {
+    console.warn('Failed to load API config, using fallback:', API_BASE);
+  } finally {
+    configLoaded = true;
+  }
+};
+
+// Initialize API base URL
+const configPromise = initializeApiBase();
 
 interface Lobby {
   gameId: string;
@@ -27,8 +45,11 @@ export function useGameState() {
 
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // HTTP client helper
+  // HTTP client helper - waits for config to load
   const apiCall = useCallback(async (endpoint: string, options: RequestInit = {}) => {
+    // Wait for config to load first
+    await configPromise;
+    
     try {
       const response = await fetch(`${API_BASE}${endpoint}`, {
         headers: {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { useGameState } from './hooks/useGameState';
 import type { GameState, Player } from './types/game';

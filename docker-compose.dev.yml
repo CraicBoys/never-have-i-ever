@@ -1,0 +1,40 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: bun-react-backend-dev
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - DATA_DIR=/app/data
+      - SERVICE_NAME=Never Have I Ever API
+      - CORS_ORIGINS=*
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - backend_data_dev:/app/data
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: bun-react-frontend-dev
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - NODE_ENV=development
+      - API_BASE_URL=${API_BASE_URL:-http://localhost:3001/api}
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    restart: unless-stopped
+
+volumes:
+  backend_data_dev:
+    driver: local 
